@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="Media Source 提取示例">
+  <meta name="description" content="Media Source 提取示例, Momo's Blog, LuckyMomo">
+  <title>Media Source 提取示例</title>
+  <link rel="stylesheet" href="./DPlayer.min.css">
+  <style>
+  .m-p-action {
+    margin: 20px auto;
+    max-width: 1100px;
+    width: 100%;
+    font-size: 35px;
+    text-align: center;
+    font-weight: bold;
+  }
+  .m-p-other, .m-p-github, .rate-group {
+    position: fixed;
+    right: 50px;
+    bottom: 70px;
+    background-color: #eff3f6;
+    background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
+    color: #24292e;
+    border: 1px solid rgba(27, 31, 35, .2);
+    border-radius: 3px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    padding: 6px 12px;
+    z-index: 99;
+  }
+  .m-p-help {
+    position: fixed;
+    right: 50px;
+    top: 50px;
+    width: 30px;
+    height: 30px;
+    color: #666666;
+    z-index: 2;
+    text-align: center;
+    line-height: 30px;
+    font-weight: bolder;
+    border-radius: 50%;
+    border: 1px solid rgba(27, 31, 35, .2);
+    cursor: pointer;
+    background-color: #eff3f6;
+    background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
+  }
+  .m-p-github:hover, .m-p-other:hover, .m-p-help {
+    opacity: 0.9;
+  }
+  .m-p-other {
+    bottom: 30px;
+  }
+  #dplayer {
+    position: absolute;
+    top: 12%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+  }
+  </style>
+</head>
+<body>
+<section class="m-p-action g-box">Media Source 提取示例</section>
+<a class="m-p-help" target="_blank" href="https://segmentfault.com/a/1190000021847172">?</a>
+<a class="m-p-github" target="_blank" href="https://github.com/Momo707577045/m3u8-downloader">github</a>
+<a class="m-p-other" target="_blank" href="http://blog.luckly-mjw.cn/tool-show/index.html">其他实用工具</a>
+<div id="dplayer"></div>
+</body>
+<script>
+  var _hmt = _hmt || [];
+  (function () {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?1f12b0865d866ae1b93514870d93ce89";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+<script src="./hls.min.js"></script>
+<script src="./DPlayer.min.js"></script>
+<script>
+  new DPlayer({
+    container: document.getElementById('dplayer'),
+    screenshot: true,
+    video: {
+      url: 'http://1257120875.vod2.myqcloud.com/0ef121cdvodtransgzp1257120875/3055695e5285890780828799271/v.f230.m3u8',
+    },
+  });
+</script>
+</html>

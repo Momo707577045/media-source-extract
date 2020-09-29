@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="Media Source Player">
+  <meta name="description" content="Media Source Player for web, Momo's Blog, LuckyMomo">
+  <title>Media Source Player</title>
+  <style>
+  /*全局设置*/
+  html, body, #m-app {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+  body::-webkit-scrollbar { display: none}
+  p {
+    margin: 0;
+  }
+  [v-cloak] {
+    display: none;
+  }
+  /*工具栏*/
+  .m-p-action {
+    margin: 20px auto;
+    max-width: 1100px;
+    width: 100%;
+    font-size: 35px;
+    text-align: center;
+    font-weight: bold;
+  }
+  .m-p-other, .m-p-github, .rate-group {
+    position: fixed;
+    right: 50px;
+    bottom: 70px;
+    background-color: #eff3f6;
+    background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
+    color: #24292e;
+    border: 1px solid rgba(27, 31, 35, .2);
+    border-radius: 3px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    padding: 6px 12px;
+    z-index: 99;
+  }
+  .m-p-help {
+    position: fixed;
+    right: 50px;
+    top: 50px;
+    width: 30px;
+    height: 30px;
+    color: #666666;
+    z-index: 2;
+    text-align: center;
+    line-height: 30px;
+    font-weight: bolder;
+    border-radius: 50%;
+    border: 1px solid rgba(27, 31, 35, .2);
+    cursor: pointer;
+    background-color: #eff3f6;
+    background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
+  }
+  .m-p-github:hover, .m-p-other:hover, .m-p-help {
+    opacity: 0.9;
+  }
+  .m-p-other {
+    bottom: 30px;
+  }
+  .rate-group {
+    width: 42px;
+    bottom: 110px;
+  }
+  .rate-group .select {
+    color: white;
+    text-align: center;
+    border-radius: 2px;
+    background-color: #27ae60;
+  }
+  /*输入框*/
+  #input-box {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    width: 450px;
+    transform: translate(-50%, -50%);
+  }
+  #input-box input {
+    position: fixed;
+    left: -4000px;
+    z-index: -2;
+  }
+  #input-box label {
+    margin-bottom: 10px;
+    padding: 0 20px;
+    display: block;
+    width: 100%;
+    height: 40px;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 4px;
+    border: 1px solid #eeeeee;
+    background-color: #3D8AC7;
+    opacity: 1;
+    user-select: none;
+    cursor: pointer;
+    transition: 0.3s all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  #input-box label:hover {
+    opacity: 0.9;
+  }
+  #input-box .finish {
+    background-color: #27ae60;
+    cursor: auto;
+  }
+  #input-box .finish:hover {
+    opacity: 1;
+  }
+  #input-box .disable {
+    background-color: #bdc3c7;
+    cursor: auto;
+  }
+  #input-box .disable:hover {
+    opacity: 1;
+  }
+  #input-box div {
+    cursor: pointer;
+    color: #666666;
+  }
+  /*视频区*/
+  video {
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    width: 450px;
+    transform: translateX(-50%);
+  }
+  </style>
+</head>
+
+<body>
+<section id="m-app" v-cloak>
+  <section class="m-p-action g-box">Media Source 播放器</section>
+  <a class="m-p-help" target="_blank" href="https://segmentfault.com/a/1190000021847172">?</a>
+  <a class="m-p-github" target="_blank" href="https://github.com/Momo707577045/m3u8-downloader">github</a>
+  <a class="m-p-other" target="_blank" href="http://blog.luckly-mjw.cn/tool-show/index.html">其他实用工具</a>
+  <!--倍速设置器-->
+  <div class="rate-group" v-if="isPlay">
+    <div v-for="(rate, index) in playbackRateList" @click="setRate(index)" :class="[ playbackRateIndex === index ? 'select' : '']">{{rate}}</div>
+  </div>
+
+  <!--文件上传-->
+  <section id="input-box" v-show="!isPlay">
+    <label for="video" :title="videoFileName" :class="[videoFileName ? 'finish' : '']">{{ videoFileName ? `视频已上传(${videoFileName})` : '点击，上传视频文件' }}</label>
+    <label for="audio" :title="audioFileName" :class="[audioFileName ? 'finish' : '']">{{ audioFileName ? `音频已上传(${audioFileName})` : '点击，上传音频文件' }}</label>
+    <input v-if="!videoFileName" id="video" accept="video/*" type="file" value="点击，上传视频文件" @change="!videoFileName && loadSource($event, 'video')">
+    <input v-if="!audioFileName" id="audio" accept="audio/*" type="file" value="点击，上传音频文件" @change="!audioFileName && loadSource($event, 'audio')">
+    <label @click="(audioFileName || videoFileName) && play()" :class="[audioFileName || videoFileName ? '' : 'disable']">播放</label>
+    <div @click="downloadFile('http://upyun.luckly-mjw.cn/Assets/media-source/video.mp4', 'video.mp4')">点击下载示例视频</div>
+    <div @click="downloadFile('http://upyun.luckly-mjw.cn/Assets/media-source/audio.mp4', 'audio.mp4')">点击下载示例音频</div>
+  </section>
+
+  <!--播放视频-->
+  <video controls v-show="isPlay" ref="player"></video>
+
+</section>
+</body>
+<script>
+  var _hmt = _hmt || [];
+  (function () {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?1f12b0865d866ae1b93514870d93ce89";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+<script src="mp4box.all.js"></script>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+<script>
+  new Vue({
+    el: '#m-app',
+
+    data () {
+      return {
+        playbackRateIndex: 2, // 播放倍度索引
+        playbackRateList: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.5, 3], // 播放倍度
+        isPlay: false, // 是否输入完资料，进行播放
+        mediaSource: null,
+        videoFileName: '',
+        audioFileName: '',
+        videoSourceBuffer: null,
+        audioSourceBuffer: null,
+        videoArrayBuffer: null,
+        audioArrayBuffer: null,
+      }
+    },
+
+    mounted () {
+      this.mediaSource = new MediaSource
+      this.$refs.player.src = URL.createObjectURL(this.mediaSource)
+    },
+
+    methods: {
+      // 上传资源
+      loadSource (event, type) {
+        const file = event.target.files[0]
+        this[`${type}FileName`] = file.name
+        let reader = new FileReader();
+        reader.onloadend = (loadEvent) => {
+          this[`${type}ArrayBuffer`] = loadEvent.target.result
+          this.getMime(this[`${type}ArrayBuffer`]).then((mime) => {
+            mime = mime.replace(/,rtp/g, '')
+            console.log(this[`${type}ArrayBuffer`], mime, MediaSource.isTypeSupported(mime))
+            this[`${type}SourceBuffer`] = this.mediaSource.addSourceBuffer(mime)
+          })
+        }
+        reader.readAsArrayBuffer(file);
+      },
+
+      // 获取媒体格式
+      getMime (arrayBuffer) {
+        return new Promise((resolve) => {
+          const mp4boxfile = MP4Box.createFile()
+          arrayBuffer.fileStart = 0
+          mp4boxfile.onReady = (info) => resolve(info.mime)
+          mp4boxfile.appendBuffer(arrayBuffer)
+        })
+      },
+
+      // 播放
+      play () {
+        this.isPlay = true
+        this.videoSourceBuffer && this.videoArrayBuffer && this.videoSourceBuffer.appendBuffer(this.videoArrayBuffer)
+        this.audioSourceBuffer && this.audioArrayBuffer && this.audioSourceBuffer.appendBuffer(this.audioArrayBuffer)
+      },
+
+      // 设置播放倍数
+      setRate (index) {
+        this.playbackRateIndex = index
+        this.$refs.player.playbackRate = this.playbackRateList[index]
+      },
+
+      // 下载示例文件
+      downloadFile (url, fileName) {
+        fetch(url, { mode: 'cors' })
+        .then(res => res.blob())
+        .then(blob => {
+          const a = document.createElement('a')
+          a.download = fileName
+          a.href = window.URL.createObjectURL(blob)
+          a.style.display = 'none'
+          document.body.appendChild(a)
+          a.click()
+          a.remove()
+        })
+      },
+    }
+  })
+
+</script>
+
+</html>
+
