@@ -1,6 +1,6 @@
 # 无差别视频提取工具
 
-### 背景
+## 背景
 - 之前笔者实现了[m3u8 视频在线提取工具](http://blog.luckly-mjw.cn/tool-show/m3u8-downloader/index.html)，可对 m3u8 视频进行提取，合并，下载。实现整个视频下载流程。
 - 后续还实现了非定制性的 ASE 解密功能（不提供定制性服务，定制性解密，属于破解，侵权行为，需尊重知识产权）
 - 但上述工具仍存在一定的通用性问题。为彻底解决通用性，实现无差别视频提取，开发了这个工具。
@@ -8,7 +8,7 @@
   ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/001.jpeg)
 
 
-### 特点
+## 特点
 - 优点，通用性强，无差别提取，只要使用到 MES 主流媒体播放技术的视频，均可捕获。
 - 优点，足够简单，在视频播放的最后一个步骤进行拦截，规避视频加载，加密，解密等复杂过程。
 - 缺点，被动，无法主动干预视频加载，只可被动捕获视频资源。
@@ -16,8 +16,9 @@
 
   ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/018.png)
 
+## [使用示例链接](http://blog.luckly-mjw.cn/tool-show/media-source-extract/example/index.html)
 
-### 原理
+## 原理
 - 主流视频媒体播放技术，均使用到 [MES](https://developer.mozilla.org/zh-CN/docs/Web/API/Media_Source_Extensions_API) 技术
 - MES 技术播放流程一般如下：
   - 创建 video 播放器标签。
@@ -27,7 +28,7 @@
   - 将每个片段的「视频轨」「音频轨」，"喂给" video 标签进行播放。
   - 当已加载的视频片段快要播完时，重复第二个步骤，拉取新的视频片段，进行投喂。
 
-    ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/021.png)
+    ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/021.jpeg)
 - 本工具的核心逻辑
   - 覆写视频片段的"投喂"操作。
   - 插入自定义代码，收集"投喂"的「视频」「音频」资源，进行下载。
@@ -35,7 +36,7 @@
   ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/019.jpeg)
 
 
-### 核心源码（共 91 行）
+## 核心源码（共 91 行）
 ```
 (function () {
 
@@ -132,7 +133,7 @@
 })()
 ```
 
-### 功能说明
+## 功能说明
 ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/017.png)
 
 - 【已捕获 0 个片段】
@@ -148,7 +149,7 @@
 
 
 
-### 使用方式
+## 使用方式
 *[示例实验链接](http://blog.luckly-mjw.cn/tool-show/media-source-extract/example/index.html)*
 - 复制工具代码
   - 可以直接复制本文中的核心源码
@@ -218,11 +219,11 @@
     ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/014.jpeg)
 
 
-### iframe 解决方案
+## iframe 解决方案
 *[示例实验链接](http://blog.luckly-mjw.cn/tool-show/media-source-extract/example/index.html)*
 
 
-### [专属播放器](http://blog.luckly-mjw.cn/tool-show/media-source-extract/player/player.html)
+## [专属播放器](http://blog.luckly-mjw.cn/tool-show/media-source-extract/player/player.html)
 - 由于采集工具是单独对「视频」和「音频」分开采集的。
 - 使用普通播放器可能无法正常播放。
 - 可利用本工具同时加载「视频」和「音频」同步播放。
@@ -231,10 +232,10 @@
   ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/014.jpeg)
 
 
-### [项目源码](https://github.com/Momo707577045/media-source-extract)
+## [项目源码](https://github.com/Momo707577045/media-source-extract)
 ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/020.png)
 
 
 
-### 声明
+## 声明
 - 本项目仅用于学习，交流，切勿用于侵权行为。
