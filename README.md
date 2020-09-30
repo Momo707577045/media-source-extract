@@ -43,7 +43,7 @@
 
   ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/003.jpeg)
 
-- ctrl + f ，输入 iframe，判断是否存在 iframe 内嵌页面，若存在 iframe，请查看下一节「iframe 解决方案」。若无，则下一步
+- ctrl + f ，输入 <iframe，判断是否存在 iframe 内嵌页面。若存在 iframe，请看完本说明，再继续查看下一节「iframe 解决方案」。若无，则下一步
 
   ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/004.jpeg)
 
@@ -69,6 +69,7 @@
     ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/016.jpeg)
 
 - 刷新页面，出现如下状态，则证明断点设置成功
+  - 若页面白屏，为正常现象，按照步骤继续执行即可。
   ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/008.jpeg)
 
 - 在 console 栏，粘贴工具代码，回车
@@ -103,7 +104,42 @@
 
 ## iframe 解决方案
 *[示例实验链接](http://blog.luckly-mjw.cn/tool-show/media-source-extract/example/index.html)*
+- 找到 iframe 标签，复制 src 中的 url，新建页面打开该 url。
+  - 如果该新建页面能正常播放视频，则在该新建页面，使用上述「使用说明」即可。
 
+    ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/107.jpeg)
+
+- 如果新建页面没有正常播放页面，则回到原页面，换一种方式实现。
+- 回到原页面，找到 iframe 内嵌页面的源码。
+  - 同样搜索 <script，但这一次，要找带 src 的 script 标签
+
+    ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/101.jpeg)
+- 找到该 src 对应的文件，并打断点
+
+  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/102.jpeg)
+
+- 刷新页面，并在源文件中，插入代码
+  - 注意，打断点和插入代码是在不同的栏，打断点的栏中，有「:format」标识。插入代码的栏，没有该标识。
+
+  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/103.jpeg)
+- 粘贴代码，ctrl + s 进行保存
+
+  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/104.jpeg)
+
+- 恢复执行（操作方式，查看上一节「使用说明」）
+  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/105.jpeg)
+
+- 完成代码插入，捕获视频
+
+## 特别说明
+- 在代码操作过程中，页面白屏是正常的，按照步骤继续执行即可。
+- 如果不行，安装使用说明，多试几遍就可以了。可能是视频广告导致。
+- 注意 Chrome 的多文件下载询问，如果拒绝过，需要重新打开。
+  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/201.jpeg)
+
+- 视频捕获，分为「视频」文件与「音频」文件，「视频」文件是纯视频，没声音的。需要搭配「音频」文件播放。[点击这里](http://blog.luckly-mjw.cn/tool-show/media-source-extract/player/player.html)，使用专属播放器。
+
+  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/013.jpeg)
 
 ## [专属播放器](http://blog.luckly-mjw.cn/tool-show/media-source-extract/player/player.html)
 - 由于采集工具是单独对「视频」和「音频」分开采集的。
