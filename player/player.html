@@ -30,10 +30,9 @@
     text-align: center;
     font-weight: bold;
   }
-  .m-p-other, .m-p-github, .rate-group {
+  .m-p-other, .m-p-github, .rate-group, .m-p-copy {
     position: fixed;
     right: 50px;
-    bottom: 70px;
     background-color: #eff3f6;
     background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
     color: #24292e;
@@ -64,15 +63,21 @@
     background-color: #eff3f6;
     background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
   }
-  .m-p-github:hover, .m-p-other:hover, .m-p-help {
+  .m-p-github:hover, .m-p-other:hover, .m-p-help:hover, .m-p-copy:hover {
     opacity: 0.9;
   }
+  .m-p-github {
+    bottom: 110px;
+  }
   .m-p-other {
+    bottom: 70px;
+  }
+  .m-p-copy {
     bottom: 30px;
   }
   .rate-group {
     width: 42px;
-    bottom: 110px;
+    bottom: 150px;
   }
   .rate-group .select {
     color: white;
@@ -152,6 +157,7 @@
   <a class="m-p-help" target="_blank" href="https://segmentfault.com/a/1190000021847172">?</a>
   <a class="m-p-github" target="_blank" href="https://github.com/Momo707577045/m3u8-downloader">github</a>
   <a class="m-p-other" target="_blank" href="http://blog.luckly-mjw.cn/tool-show/index.html">其他实用工具</a>
+  <div class="m-p-copy" @click="copy">复制工具代码</div>
   <!--倍速设置器-->
   <div class="rate-group" v-if="isPlay">
     <div v-for="(rate, index) in playbackRateList" @click="setRate(index)" :class="[ playbackRateIndex === index ? 'select' : '']">{{rate}}</div>
@@ -262,6 +268,29 @@
           a.remove()
         })
       },
+
+      // 复制到剪切板
+      copyToClipboard (content) {
+        let $input = document.createElement('textarea')
+        $input.style.opacity = '0'
+        $input.value = content
+        document.body.appendChild($input)
+        $input.select()
+
+        document.execCommand('copy')
+        document.body.removeChild($input)
+        $input = null
+      },
+
+      // 复制工具代码
+      copy () {
+        fetch('http://blog.luckly-mjw.cn/tool-show/media-source-extract/extract-code.js', { mode: 'cors' })
+        .then(res => res.text())
+        .then(text => {
+          this.copyToClipboard(text)
+          alert('代码复制成功')
+        })
+      }
     }
   })
 
