@@ -128,7 +128,7 @@
 
 - 恢复执行（操作方式，查看上一节「使用说明」）
 
-  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/105.jpeg)
+  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/108.jpeg)
 
 - 完成代码插入，捕获视频
 
