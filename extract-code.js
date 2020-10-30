@@ -16,7 +16,10 @@
 
   // 下载资源
   function _download () {
-    _sourceBufferList.forEach((target) => {
+    const sourceBufferListLen = _sourceBufferList.length 
+    const _sourceBufferListTemp =  _sourceBufferList.slice(sourceBufferListLen - 2)
+    // 每次只下载最新的视频与音频
+    _sourceBufferListTemp.forEach((target) => {
       const mime = target.mime.split(';')[0]
       const type = mime.split('/')[1]
       const fileBlob = new Blob(target.bufferList, { type: mime }) // 创建一个Blob对象，并设置文件的 MIME 类型
@@ -49,8 +52,9 @@
       mime,
       bufferList,
     })
+    const _sourceBufferListLen = _sourceBufferList.length
     sourceBuffer.appendBuffer = function (buffer) {
-      $downloadNum.innerHTML = `已捕获 ${_sourceBufferList[0].bufferList.length} 个片段`
+      $downloadNum.innerHTML = `已捕获 ${_sourceBufferList[_sourceBufferListLen - 1].bufferList.length} 个片段` // 显示最新的获取切片信息
       bufferList.push(buffer)
       _append.call(this, buffer)
     }
