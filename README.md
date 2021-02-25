@@ -1,5 +1,13 @@
 # 无差别视频提取工具
 
+## [油猴插件](https://greasyfork.org/zh-CN/scripts/422269-media-source-extract)
+![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/109.jpeg)
+- 检测到符合条件的视频资源，自动注入代码。
+- 之后再也不需要自己注入代码啦，降低使用成本。
+- 可能有 Bug，但可以试试。如果使用中有问题，在 github 中提 issues 给我呗。 我们一起完善它。
+- [插件地址点这里](https://greasyfork.org/zh-CN/scripts/422269-media-source-extract)
+- 如果没成功检测到，咱们就用回老方法试试。再给我提个 bug。
+
 ## 背景
 - 之前笔者实现了[m3u8 视频在线提取工具](http://blog.luckly-mjw.cn/tool-show/m3u8-downloader/index.html)，可对 m3u8 视频进行提取，合并，下载。实现整个视频下载流程。
 - 后续还实现了非定制性的 ASE 解密功能（不提供定制性服务，定制性解密，属于破解，侵权行为，需尊重知识产权）
@@ -271,13 +279,7 @@
 ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/020.png)
 
 
-### 油猴插件
-![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/109.jpeg)
-- 检测到符合条件的视频资源，自动注入代码。
-- 之后再也不需要自己注入代码啦，降低使用成本。
-- 可能有 Bug，但可以试试。如果使用中有问题，在 github 中提 issues 给我呗。 我们一起完善它。
-- [插件地址点这里](https://greasyfork.org/zh-CN/scripts/422269-media-source-extract)
-- 如果没成功检测到，咱们就用回老方法试试。再给我提个 bug。
+
 
 ## 声明
 - 本项目仅用于学习，交流，切勿用于侵权行为。
