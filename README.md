@@ -271,6 +271,13 @@
 ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/020.png)
 
 
+### 油猴插件
+![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/109.jpeg)
+- 检测到符合条件的视频资源，自动注入代码。
+- 之后再也不需要自己注入代码啦，降低使用成本。
+- 可能有 Bug，但可以试试。如果使用中有问题，在 github 中提 issues 给我呗。 我们一起完善它。
+- [插件地址点这里](https://greasyfork.org/zh-CN/scripts/422269-media-source-extract)
+- 如果没成功检测到，咱们就用回老方法试试。再给我提个 bug。
 
 ## 声明
 - 本项目仅用于学习，交流，切勿用于侵权行为。

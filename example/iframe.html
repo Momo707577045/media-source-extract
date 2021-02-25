@@ -19,16 +19,14 @@
   .m-p-action {
     position: fixed;
     top: 20px;
-    max-width: 1100px;
     width: 100%;
     font-size: 35px;
     text-align: center;
     font-weight: bold;
   }
-  .m-p-other, .m-p-github, .m-p-copy {
+  .m-p-other, .m-p-github, .m-p-copy, .m-p-player {
     position: fixed;
     right: 50px;
-    bottom: 110px;
     background-color: #eff3f6;
     background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
     color: #24292e;
@@ -59,14 +57,20 @@
     background-color: #eff3f6;
     background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
   }
-  .m-p-github:hover, .m-p-other:hover, .m-p-help:hover, .m-p-copy:hover {
+  .m-p-github:hover, .m-p-other:hover, .m-p-help:hover, .m-p-copy:hover, .m-p-player:hover {
     opacity: 0.9;
   }
-  .m-p-copy {
+  .m-p-player {
     bottom: 30px;
   }
-  .m-p-other {
+  .m-p-copy {
     bottom: 70px;
+  }
+  .m-p-other {
+    bottom: 110px;
+  }
+  .m-p-github {
+    bottom: 150px;
   }
   </style>
 </head>
@@ -76,6 +80,7 @@
 <a class="m-p-help" target="_blank" href="https://segmentfault.com/a/1190000025182822">?</a>
 <a class="m-p-github" target="_blank" href="https://github.com/Momo707577045/media-source-extract">github</a>
 <a class="m-p-other" target="_blank" href="http://blog.luckly-mjw.cn/tool-show/index.html">其他实用工具</a>
+<a class="m-p-player" target="_blank" href="http://blog.luckly-mjw.cn/tool-show/media-source-extract/player/player.html">专属播放器</a>
 <div class="m-p-copy" id="copy">复制工具代码</div>
 </body>
 <script>

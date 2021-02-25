@@ -17,10 +17,9 @@
     text-align: center;
     font-weight: bold;
   }
-  .m-p-other, .m-p-github, .m-p-copy {
+  .m-p-other, .m-p-github, .m-p-copy, .m-p-player, .m-p-tamper {
     position: fixed;
     right: 50px;
-    bottom: 110px;
     background-color: #eff3f6;
     background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
     color: #24292e;
@@ -51,14 +50,23 @@
     background-color: #eff3f6;
     background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
   }
-  .m-p-github:hover, .m-p-other:hover, .m-p-help:hover, .m-p-copy:hover {
+  .m-p-github:hover, .m-p-other:hover, .m-p-help:hover, .m-p-copy:hover, .m-p-tamper:hover, .m-p-player:hover {
     opacity: 0.9;
   }
-  .m-p-copy {
+  .m-p-player {
     bottom: 30px;
   }
-  .m-p-other {
+  .m-p-copy {
     bottom: 70px;
+  }
+  .m-p-other {
+    bottom: 110px;
+  }
+  .m-p-github {
+    bottom: 190px;
+  }
+  .m-p-tamper {
+    bottom: 150px;
   }
   #dplayer {
     position: absolute;
@@ -73,49 +81,51 @@
 <section class="m-p-action g-box">Media Source 提取示例</section>
 <a class="m-p-help" target="_blank" href="https://segmentfault.com/a/1190000025182822">?</a>
 <a class="m-p-github" target="_blank" href="https://github.com/Momo707577045/media-source-extract">github</a>
+<a class="m-p-tamper" target="_blank" href="https://greasyfork.org/zh-CN/scripts/422269-media-source-extract">油猴插件</a>
 <a class="m-p-other" target="_blank" href="http://blog.luckly-mjw.cn/tool-show/index.html">其他实用工具</a>
+<a class="m-p-player" target="_blank" href="http://blog.luckly-mjw.cn/tool-show/media-source-extract/player/player.html">专属播放器</a>
 <div class="m-p-copy" id="copy">复制工具代码</div>
 <div id="dplayer"></div>
 </body>
 <script>
-  var _hmt = _hmt || [];
-  (function () {
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?1f12b0865d866ae1b93514870d93ce89";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-  })();
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?1f12b0865d866ae1b93514870d93ce89";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
 </script>
 <script src="./hls.min.js"></script>
 <script src="./DPlayer.min.js"></script>
 <script>
-  new DPlayer({
-    container: document.getElementById('dplayer'),
-    screenshot: true,
-    video: {
-      url: 'http://1257120875.vod2.myqcloud.com/0ef121cdvodtransgzp1257120875/3055695e5285890780828799271/v.f230.m3u8',
-    },
-  });
+new DPlayer({
+  container: document.getElementById('dplayer'),
+  screenshot: true,
+  video: {
+    url: 'http://1257120875.vod2.myqcloud.com/0ef121cdvodtransgzp1257120875/3055695e5285890780828799271/v.f230.m3u8',
+  },
+});
 
-  function copyToClipboard (content) {
-    let $input = document.createElement('textarea')
-    $input.style.opacity = '0'
-    $input.value = content
-    document.body.appendChild($input)
-    $input.select()
+function copyToClipboard(content) {
+  let $input = document.createElement('textarea')
+  $input.style.opacity = '0'
+  $input.value = content
+  document.body.appendChild($input)
+  $input.select()
 
-    document.execCommand('copy')
-    document.body.removeChild($input)
-    $input = null
-  }
+  document.execCommand('copy')
+  document.body.removeChild($input)
+  $input = null
+}
 
-  copy.addEventListener('click', () => {
-    fetch('http://blog.luckly-mjw.cn/tool-show/media-source-extract/extract-code.js', { mode: 'cors' })
+copy.addEventListener('click', () => {
+  fetch('http://blog.luckly-mjw.cn/tool-show/media-source-extract/extract-code.js', { mode: 'cors' })
     .then(res => res.text())
     .then(text => {
       copyToClipboard(text)
       alert('代码复制成功')
     })
-  })
+})
 </script>
 </html>
