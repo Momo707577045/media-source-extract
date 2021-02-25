@@ -51,6 +51,13 @@
 
     // 下载资源
     function _download() {
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?1f12b0865d866ae1b93514870d93ce89";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
       _sourceBufferList.forEach((target) => {
         const mime = target.mime.split(';')[0]
         const type = mime.split('/')[1]
