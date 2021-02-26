@@ -17,6 +17,7 @@
       return
     }
 
+    let isClose = false
     let _sourceBufferList = []
     let $btnDownload = document.createElement('div')
     let $downloadNum = document.createElement('div')
@@ -51,6 +52,7 @@
 
     // 下载资源
     function _download() {
+
       var _hmt = _hmt || [];
       (function() {
         var hm = document.createElement("script");
@@ -75,9 +77,11 @@
     // 监听资源全部录取成功
     let _endOfStream = window.MediaSource.prototype.endOfStream
     window.MediaSource.prototype.endOfStream = function() {
-      alert('资源全部捕获成功，即将下载！')
-      _download()
-      _endOfStream.call(this)
+      if (!isClose) {
+        alert('资源全部捕获成功，即将下载！')
+        _download()
+        _endOfStream.call(this)
+      }
     }
 
     // 录取资源
@@ -143,6 +147,7 @@
         $downloadNum.remove()
         $closeBtn.remove()
         $tenRate.remove()
+        isClose = true
       })
 
       document.getElementsByTagName('html')[0].insertBefore($tenRate, document.getElementsByTagName('head')[0]);
