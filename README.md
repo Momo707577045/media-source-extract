@@ -158,6 +158,21 @@
 
   ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/014.jpeg)
 
+## window 系统，音视频合成方法
+- 可使用[「小丸工具箱」](https://maruko.appinn.me/)完成
+- 具体的方式，笔者没有实践过，有经验的朋友欢迎在评论区留言使用教程。万分感谢。
+- 特别感谢[㍿⃣ ](https://segmentfault.com/a/1190000025182822?_ea=116593121) 介绍的「小丸工具箱」解决方案
+
+## mac 系统，音视频合成方法
+- [安装 ffmpeg](https://www.jianshu.com/p/627b2d462151) 视频编辑库
+- 先把音频「audio_mp4」进行转码
+  - 命令行执行 `ffmpeg -i "***-audio_mp4;codecs=***.mp4" -acodec copy "audio.aac"`
+- 原始视频「video_mp4」和上一步得到的 aac 「audio.aac」组装到一起
+  - 命令行执行 `ffmpeg -i "***-video_mp4;codecs=***.mp4" -i "audio.aac" -c copy -shortest "result.mp4"`
+- 得到的「result.mp4」就是音视频合成成功的视频
+- 特别感谢[journey-ad](https://github.com/Momo707577045/media-source-extract/issues/5#issuecomment-786992510) 介绍的 ffmpeg 合成教程。
+
+  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/110.jpeg)
 
 ## 原理
 - 主流视频媒体播放技术，均使用到 [MES](https://developer.mozilla.org/zh-CN/docs/Web/API/Media_Source_Extensions_API) 技术

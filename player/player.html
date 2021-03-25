@@ -30,7 +30,7 @@
     text-align: center;
     font-weight: bold;
   }
-  .m-p-other, .m-p-github, .rate-group, .m-p-copy, .m-p-extract {
+  .m-p-other, .m-p-github, .rate-group, .m-p-copy, .m-p-extract, .m-p-combining {
     position: fixed;
     right: 50px;
     background-color: #eff3f6;
@@ -67,12 +67,15 @@
     opacity: 0.9;
   }
   .m-p-github {
-    bottom: 150px;
+    bottom: 190px;
   }
   .m-p-other {
-    bottom: 110px;
+    bottom: 150px;
   }
   .m-p-copy {
+    bottom: 110px;
+  }
+  .m-p-combining {
     bottom: 70px;
   }
   .m-p-extract {
@@ -159,6 +162,7 @@
   <section class="m-p-action g-box">Media Source 播放器</section>
   <a class="m-p-help" target="_blank" href="https://segmentfault.com/a/1190000025182822">?</a>
   <a class="m-p-github" target="_blank" href="https://github.com/Momo707577045/media-source-extract">github</a>
+  <a class="m-p-combining" target="_blank" href="https://segmentfault.com/a/1190000025182822">音视频合成</a>
   <a class="m-p-other" target="_blank" href="http://blog.luckly-mjw.cn/tool-show/index.html">其他实用工具</a>
   <div class="m-p-copy" @click="copy">复制工具代码</div>
   <a class="m-p-extract" target="_blank" href="http://blog.luckly-mjw.cn/tool-show/media-source-extract/example/index.html">提取示例</a>
@@ -184,83 +188,83 @@
 </section>
 </body>
 <script>
-  var _hmt = _hmt || [];
-  (function () {
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?1f12b0865d866ae1b93514870d93ce89";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-  })();
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?1f12b0865d866ae1b93514870d93ce89";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
 </script>
 <script src="mp4box.all.js"></script>
 <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
 <script>
-  new Vue({
-    el: '#m-app',
+new Vue({
+  el: '#m-app',
 
-    data () {
-      return {
-        playbackRateIndex: 2, // 播放倍度索引
-        playbackRateList: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.5, 3], // 播放倍度
-        isPlay: false, // 是否输入完资料，进行播放
-        mediaSource: null,
-        videoFileName: '',
-        audioFileName: '',
-        videoSourceBuffer: null,
-        audioSourceBuffer: null,
-        videoArrayBuffer: null,
-        audioArrayBuffer: null,
-      }
-    },
+  data() {
+    return {
+      playbackRateIndex: 2, // 播放倍度索引
+      playbackRateList: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.5, 3], // 播放倍度
+      isPlay: false, // 是否输入完资料，进行播放
+      mediaSource: null,
+      videoFileName: '',
+      audioFileName: '',
+      videoSourceBuffer: null,
+      audioSourceBuffer: null,
+      videoArrayBuffer: null,
+      audioArrayBuffer: null,
+    }
+  },
 
-    mounted () {
-      this.mediaSource = new MediaSource
-      this.$refs.player.src = URL.createObjectURL(this.mediaSource)
-    },
+  mounted() {
+    this.mediaSource = new MediaSource
+    this.$refs.player.src = URL.createObjectURL(this.mediaSource)
+  },
 
-    methods: {
-      // 上传资源
-      loadSource (event, type) {
-        const file = event.target.files[0]
-        this[`${type}FileName`] = file.name
-        let reader = new FileReader();
-        reader.onloadend = (loadEvent) => {
-          this[`${type}ArrayBuffer`] = loadEvent.target.result
-          this.getMime(this[`${type}ArrayBuffer`]).then((mime) => {
-            mime = mime.replace(/,rtp/g, '')
-            console.log(this[`${type}ArrayBuffer`], mime, MediaSource.isTypeSupported(mime))
-            this[`${type}SourceBuffer`] = this.mediaSource.addSourceBuffer(mime)
-          })
-        }
-        reader.readAsArrayBuffer(file);
-      },
-
-      // 获取媒体格式
-      getMime (arrayBuffer) {
-        return new Promise((resolve) => {
-          const mp4boxfile = MP4Box.createFile()
-          arrayBuffer.fileStart = 0
-          mp4boxfile.onReady = (info) => resolve(info.mime)
-          mp4boxfile.appendBuffer(arrayBuffer)
+  methods: {
+    // 上传资源
+    loadSource(event, type) {
+      const file = event.target.files[0]
+      this[`${type}FileName`] = file.name
+      let reader = new FileReader();
+      reader.onloadend = (loadEvent) => {
+        this[`${type}ArrayBuffer`] = loadEvent.target.result
+        this.getMime(this[`${type}ArrayBuffer`]).then((mime) => {
+          mime = mime.replace(/,rtp/g, '')
+          console.log(this[`${type}ArrayBuffer`], mime, MediaSource.isTypeSupported(mime))
+          this[`${type}SourceBuffer`] = this.mediaSource.addSourceBuffer(mime)
         })
-      },
+      }
+      reader.readAsArrayBuffer(file);
+    },
 
-      // 播放
-      play () {
-        this.isPlay = true
-        this.videoSourceBuffer && this.videoArrayBuffer && this.videoSourceBuffer.appendBuffer(this.videoArrayBuffer)
-        this.audioSourceBuffer && this.audioArrayBuffer && this.audioSourceBuffer.appendBuffer(this.audioArrayBuffer)
-      },
+    // 获取媒体格式
+    getMime(arrayBuffer) {
+      return new Promise((resolve) => {
+        const mp4boxfile = MP4Box.createFile()
+        arrayBuffer.fileStart = 0
+        mp4boxfile.onReady = (info) => resolve(info.mime)
+        mp4boxfile.appendBuffer(arrayBuffer)
+      })
+    },
 
-      // 设置播放倍数
-      setRate (index) {
-        this.playbackRateIndex = index
-        this.$refs.player.playbackRate = this.playbackRateList[index]
-      },
+    // 播放
+    play() {
+      this.isPlay = true
+      this.videoSourceBuffer && this.videoArrayBuffer && this.videoSourceBuffer.appendBuffer(this.videoArrayBuffer)
+      this.audioSourceBuffer && this.audioArrayBuffer && this.audioSourceBuffer.appendBuffer(this.audioArrayBuffer)
+    },
 
-      // 下载示例文件
-      downloadFile (url, fileName) {
-        fetch(url, { mode: 'cors' })
+    // 设置播放倍数
+    setRate(index) {
+      this.playbackRateIndex = index
+      this.$refs.player.playbackRate = this.playbackRateList[index]
+    },
+
+    // 下载示例文件
+    downloadFile(url, fileName) {
+      fetch(url, { mode: 'cors' })
         .then(res => res.blob())
         .then(blob => {
           const a = document.createElement('a')
@@ -271,32 +275,32 @@
           a.click()
           a.remove()
         })
-      },
+    },
 
-      // 复制到剪切板
-      copyToClipboard (content) {
-        let $input = document.createElement('textarea')
-        $input.style.opacity = '0'
-        $input.value = content
-        document.body.appendChild($input)
-        $input.select()
+    // 复制到剪切板
+    copyToClipboard(content) {
+      let $input = document.createElement('textarea')
+      $input.style.opacity = '0'
+      $input.value = content
+      document.body.appendChild($input)
+      $input.select()
 
-        document.execCommand('copy')
-        document.body.removeChild($input)
-        $input = null
-      },
+      document.execCommand('copy')
+      document.body.removeChild($input)
+      $input = null
+    },
 
-      // 复制工具代码
-      copy () {
-        fetch('http://blog.luckly-mjw.cn/tool-show/media-source-extract/extract-code.js', { mode: 'cors' })
+    // 复制工具代码
+    copy() {
+      fetch('http://blog.luckly-mjw.cn/tool-show/media-source-extract/extract-code.js', { mode: 'cors' })
         .then(res => res.text())
         .then(text => {
           this.copyToClipboard(text)
           alert('代码复制成功')
         })
-      }
     }
-  })
+  }
+})
 
 </script>
 
