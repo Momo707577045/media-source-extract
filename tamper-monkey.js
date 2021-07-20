@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         media-source-extract
 // @namespace    https://github.com/Momo707577045/media-source-extract
-// @version      0.1
+// @version      0.2
 // @description  https://github.com/Momo707577045/media-source-extract 配套插件
 // @author       Momo707577045
 // @include      *
@@ -52,7 +52,6 @@
 
     // 下载资源
     function _download() {
-
       var _hmt = _hmt || [];
       (function() {
         var hm = document.createElement("script");
@@ -72,6 +71,7 @@
         a.click()
         a.remove()
       })
+      _sourceBufferList = []  //这里新增的
     }
 
     // 监听资源全部录取成功
