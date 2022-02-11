@@ -29,6 +29,7 @@
     height: 34px;
     width: 34px;
     line-height: 34px;
+    text-align: center;
     display: inline-block;
     border-radius: 50px;
     background-color: rgba(0, 0, 0, 0.5);
@@ -36,6 +37,7 @@
     <img style="
       padding-top: 4px;
       width: 24px;
+      display: inline-block;
       cursor: pointer;
     " src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAk1BMVEUAAAD////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////ROyVeAAAAMHRSTlMA1Sq7gPribxkJx6Ey8onMsq+GTe10QF8kqJl5WEcvIBDc0sHAkkk1FgO2ZZ+dj1FHfPqwAAACNElEQVRIx6VW6ZqqMAwtFlEW2Rm3EXEfdZa+/9PdBEvbIVXu9835oW1yjiQlTWQE/iYPuTObOTzMNz4bQFRlY2FgnFXRC/o01mytiafP+BPvQZk56bcLSOXem1jpCy4QgXvRtlEVCARfUP65RM/hp29/+0R7eSbhoHlnffZ8h76e6x1tyw9mxXaJ3nfTVLd89hQr9NfGceJxfLIXmONh6eNNYftNSESRmgkHlEOjmhgBbYcEW08FFQN/ro6dvAczjhgXEdQP76xHEYxM+igQq259gLrCSlwbD3iDtTMy+A4Yuk0B6zV8c+BcO2OgFIp/UvJdG4o/Rp1JQYXeZFflPEFMfvugiFGFXN587YtgX7C8lRGFXPCGGYCCzlkoxJ4xqmi/jrIcdYYh5pwxiwI/gt7lDDFrcLiMKhBJ//W78ENsJgVUsV8wKpjZBXshM6cCW0jbRAilICFxIpgGMmmiWGHSIR6ViY+DPFaqSJCbQ5mbxoZLIlU0Al/cBj6N1uXfFI0okLppi69StmumSFQRP6oIKDedFi3vRDn3j6KozCZlu0DdJb3AupJXNLmqkk9+X9FEHLt1Jq8oi1H5n01AtRlvwQZQl9hmtPY4JEjMDs5ftWJN4Xr4lLrV2OHiUDHCPgvA/Tn/hP4zGUBfjZ3eLJ+NIOfHxi8CMoAQtYfmw93v01O0e7VlqqcCsXML3Vsu94cxnb4c7ML5chG8JIP9b38dENGaj3+x+TpiA/AL/fen8In7H8l3ZjdJQt2TAAAAAElFTkSuQmCC">
   </div>`
@@ -43,10 +45,18 @@
 
     // 十倍速播放
     function _tenRatePlay() {
+      let playbackRate = 10
+      if ($tenRate.innerHTML === '十倍速捕获') {
+        $tenRate.innerHTML = '恢复正常播放'
+      } else {
+        playbackRate = 1
+        $tenRate.innerHTML = '十倍速捕获'
+      }
+
       let $domList = document.getElementsByTagName('video')
       for (let i = 0, length = $domList.length; i < length; i++) {
         const $dom = $domList[i]
-        $dom.playbackRate = 10
+        $dom.playbackRate = playbackRate
       }
     }
 
@@ -96,7 +106,9 @@
         bufferList,
       })
       sourceBuffer.appendBuffer = function(buffer) {
-        $downloadNum.innerHTML = `已捕获 ${_sourceBufferList[0].bufferList.length} 个片段`
+        let sumFragment = 0
+        _sourceBufferList.forEach(sourceBuffer => sumFragment += sourceBuffer.bufferList.length)
+        $downloadNum.innerHTML = `已捕获 ${sumFragment} 个片段`
         bufferList.push(buffer)
         _append.call(this, buffer)
       }

@@ -7,10 +7,18 @@
 
   // 十倍速播放
   function _tenRatePlay() {
+    let playbackRate = 10
+    if ($tenRate.innerHTML === '十倍速捕获') {
+      $tenRate.innerHTML = '恢复正常播放'
+    } else {
+      playbackRate = 1
+      $tenRate.innerHTML = '十倍速捕获'
+    }
+
     let $domList = document.getElementsByTagName('video')
     for (let i = 0, length = $domList.length; i < length; i++) {
       const $dom = $domList[i]
-      $dom.playbackRate = 10
+      $dom.playbackRate = playbackRate
     }
   }
 
@@ -50,7 +58,9 @@
       bufferList,
     })
     sourceBuffer.appendBuffer = function(buffer) {
-      $downloadNum.innerHTML = `已捕获 ${_sourceBufferList[0].bufferList.length} 个片段`
+      let sumFragment = 0
+      _sourceBufferList.forEach(sourceBuffer => sumFragment += sourceBuffer.bufferList.length)
+      $downloadNum.innerHTML = `已捕获 ${sumFragment} 个片段`
       bufferList.push(buffer)
       _append.call(this, buffer)
     }

@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="keywords" content="Media Source Player">
-  <meta name="description" content="Media Source Player for web, Momo's Blog, LuckyMomo">
+  <meta name="author" content="毛静文,Momo">
+  <meta name="keywords" content="无差别提取视频的工具,毛静文的博客,Momo's Blog">
+  <meta name="description" content="无差别提取视频的工具,网页上能播放的视频,绝大部分都可以通过本工具进行提取,无视媒体加密技术,直接从底层捕获视频资源">
   <title>Media Source Player</title>
   <style>
   /*全局设置*/
@@ -158,6 +159,15 @@
 </head>
 
 <body>
+<div id="loading">
+  页面加载中，请耐心等待...
+  <h1 style="white-space: pre;">
+    推荐一个无差别提取视频的工具，
+    网页上能播放的视频，绝大部分都可以通过本工具进行提取，
+    无视媒体加密技术，直接从底层捕获视频资源，
+    工具链接：https://blog.luckly-mjw.cn/tool-show/media-source-extract/player/index.html
+  </h1>
+</div>
 <section id="m-app" v-cloak>
   <section class="m-p-action g-box">Media Source 播放器</section>
   <a class="m-p-help" target="_blank" href="https://segmentfault.com/a/1190000025182822">?</a>
@@ -197,8 +207,9 @@ var _hmt = _hmt || [];
 })();
 </script>
 <script src="mp4box.all.js"></script>
-<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+<script src="//upyun.luckly-mjw.cn/lib/vue.js"></script>
 <script>
+document.getElementById('loading') && document.getElementById('loading').remove()
 new Vue({
   el: '#m-app',
 
