@@ -6,6 +6,8 @@
 // @author       Momo707577045
 // @include      *
 // @exclude      http://blog.luckly-mjw.cn/tool-show/media-source-extract/player/player.html
+// @downloadURL	 https://github.com/Momo707577045/media-source-extract/blob/master/media-source-extract.user.js
+// @updateURL	 https://github.com/Momo707577045/media-source-extract/blob/master/media-source-extract.user.js
 // @grant        none
 // @run-at document-start
 // ==/UserScript==
