@@ -17,8 +17,9 @@
       return
     }
 
-    let isClose = false
+    let isClose = true
     let _sourceBufferList = []
+    let $showBtn = document.createElement('div') // 展示按钮
     let $btnDownload = document.createElement('div')
     let $downloadNum = document.createElement('div')
     let $tenRate = document.createElement('div') // 十倍速播放
@@ -88,9 +89,17 @@
     let _endOfStream = window.MediaSource.prototype.endOfStream
     window.MediaSource.prototype.endOfStream = function() {
       if (!isClose) {
-        alert('资源全部捕获成功，即将下载！')
-        _download()
+        // alert('资源全部捕获成功，即将下载！')
+        let text = '资源全部捕获成功，即将下载！';
+        if (confirm(text) == true) {
+          _download()
+        } else {
+          // 不下载资源
+        }
         _endOfStream.call(this)
+      } else {
+        // closed
+        _sourceBufferList = []  //这里新增的
       }
     }
 
@@ -144,6 +153,8 @@
       $tenRate.style = baseStyle + `top: 150px;`
       $btnDownload.style = baseStyle + `top: 100px;`
       $downloadNum.style = baseStyle
+      $showBtn.innerHTML = '展示捕获面板'
+      $showBtn.style = baseStyle + `top: 250px;`
       $closeBtn.style = `
         position: fixed;
         top: 200px;
@@ -152,20 +163,36 @@
         z-index: 9999;
         cursor: pointer;
       `
+      $btnDownload.style.display = 'none'
+      $closeBtn.style.display = 'none'
+      $tenRate.style.display = 'none'
+
       $btnDownload.addEventListener('click', _download)
       $tenRate.addEventListener('click', _tenRatePlay)
       $closeBtn.addEventListener('click', function() {
-        $btnDownload.remove()
-        $downloadNum.remove()
-        $closeBtn.remove()
-        $tenRate.remove()
+        // $btnDownload.remove()
+        // $downloadNum.remove()
+        // $closeBtn.remove()
+        // $tenRate.remove()
+        $btnDownload.style.display = 'none'
+        $closeBtn.style.display = 'none'
+        $tenRate.style.display = 'none'
+        $showBtn.style.display = 'block'
         isClose = true
+      })
+      $showBtn.addEventListener('click', function() {
+        $btnDownload.style.display = 'block'
+        $closeBtn.style.display = 'block'
+        $tenRate.style.display = 'block'
+        $showBtn.style.display = 'none'
+        isClose = false
       })
 
       document.getElementsByTagName('html')[0].insertBefore($tenRate, document.getElementsByTagName('head')[0]);
       document.getElementsByTagName('html')[0].insertBefore($downloadNum, document.getElementsByTagName('head')[0]);
       document.getElementsByTagName('html')[0].insertBefore($btnDownload, document.getElementsByTagName('head')[0]);
       document.getElementsByTagName('html')[0].insertBefore($closeBtn, document.getElementsByTagName('head')[0]);
+      document.getElementsByTagName('html')[0].insertBefore($showBtn, document.getElementsByTagName('head')[0]);
     }
 
 
