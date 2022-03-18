@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         media-source-extract
 // @namespace    https://github.com/Momo707577045/media-source-extract
-// @version      0.2
+// @version      0.3
 // @description  https://github.com/Momo707577045/media-source-extract 配套插件
 // @author       Momo707577045
 // @include      *
