@@ -156,7 +156,7 @@
       $btnDownload.style = baseStyle + `top: 100px;`
       $downloadNum.style = baseStyle
       $showBtn.innerHTML = '展示捕获面板'
-      $showBtn.style = baseStyle + `top: 250px;`
+      $showBtn.style = baseStyle + `top: 100px;`
       $closeBtn.style = `
         position: fixed;
         top: 200px;
