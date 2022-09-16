@@ -6,6 +6,7 @@
 // @author       Momo707577045
 // @include      *
 // @exclude      http://blog.luckly-mjw.cn/tool-show/media-source-extract/player/player.html
+// @exclude      https://www.bilibili.com/*
 // @grant        none
 // @run-at document-start
 // ==/UserScript==

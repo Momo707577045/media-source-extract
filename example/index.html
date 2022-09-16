@@ -89,6 +89,17 @@
 <a class="m-p-other" target="_blank" href="http://blog.luckly-mjw.cn/tool-show/index.html">其他实用工具</a>
 <a class="m-p-player" target="_blank" href="http://blog.luckly-mjw.cn/tool-show/media-source-extract/player/player.html">专属播放器</a>
 <div class="m-p-copy" id="copy">复制工具代码</div>
+<div id="loading">
+  页面加载中，请耐心等待...
+  <h1 style="white-space: pre;">
+    推荐一个无差别提取视频的工具，
+    网页上能播放的视频，绝大部分都可以通过本工具进行提取，
+    无视媒体加密技术，直接从底层捕获视频资源，
+    工具链接：https://blog.luckly-mjw.cn/tool-show/media-source-extract/player/index.html
+    <img src="https://upyun.luckly-mjw.cn/Assets/blog/media-source-extract-121-75.png" alt="无差别视频下载工具" title="logo"/>
+    <a target="_blank" href="https://blog.luckly-mjw.cn/tool-show/media-source-extract/index.html">点击跳转</a>
+  </h1>
+</div>
 <div id="dplayer"></div>
 </body>
 <script>
@@ -103,6 +114,7 @@ var _hmt = _hmt || [];
 <script src="./hls.min.js"></script>
 <script src="./DPlayer.min.js"></script>
 <script>
+document.getElementById('loading') && document.getElementById('loading').remove()
 new DPlayer({
   container: document.getElementById('dplayer'),
   screenshot: true,
