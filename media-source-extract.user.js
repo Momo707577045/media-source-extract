@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         media-source-extract
 // @namespace    https://github.com/Momo707577045/media-source-extract
-// @version      0.5
+// @version      0.6
 // @description  https://github.com/Momo707577045/media-source-extract 配套插件
 // @author       Momo707577045
 // @include      *
@@ -20,32 +20,30 @@
       return
     }
 
-    let isClose = false
-    let _sourceBufferList = []
-    let $showBtn = document.createElement('div') // 展示按钮
-    let $btnDownload = document.createElement('div')
-    let $downloadNum = document.createElement('div')
-    let $tenRate = document.createElement('div') // 十倍速播放
-    let $closeBtn = document.createElement('div') // 关闭
+    let isClose = false // 是否关闭
+    let isStreamDownload = false // 是否使用流式下载
+    let _sourceBufferList = [] // 媒体轨道
+    const $showBtn = document.createElement('div') // 展示按钮
+    const $btnDownload = document.createElement('div') // 下载按钮
+    const $btnStreamDownload = document.createElement('div') // 流式下载按钮
+    const $downloadNum = document.createElement('div') // 已捕获视频片段数
+    const $tenRate = document.createElement('div') // 十倍速播放
+    const $closeBtn = document.createElement('div') // 关闭
+    const $container = document.createElement('div') // 容器
     $closeBtn.innerHTML = `
-  <div style="
-    margin-top: 4px;
-    height: 34px;
-    width: 34px;
-    line-height: 34px;
-    text-align: center;
-    display: inline-block;
-    border-radius: 50px;
-    background-color: rgba(0, 0, 0, 0.5);
-  " id="m3u8-close">
     <img style="
       padding-top: 4px;
       width: 24px;
       display: inline-block;
       cursor: pointer;
-    " src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAk1BMVEUAAAD////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////ROyVeAAAAMHRSTlMA1Sq7gPribxkJx6Ey8onMsq+GTe10QF8kqJl5WEcvIBDc0sHAkkk1FgO2ZZ+dj1FHfPqwAAACNElEQVRIx6VW6ZqqMAwtFlEW2Rm3EXEfdZa+/9PdBEvbIVXu9835oW1yjiQlTWQE/iYPuTObOTzMNz4bQFRlY2FgnFXRC/o01mytiafP+BPvQZk56bcLSOXem1jpCy4QgXvRtlEVCARfUP65RM/hp29/+0R7eSbhoHlnffZ8h76e6x1tyw9mxXaJ3nfTVLd89hQr9NfGceJxfLIXmONh6eNNYftNSESRmgkHlEOjmhgBbYcEW08FFQN/ro6dvAczjhgXEdQP76xHEYxM+igQq259gLrCSlwbD3iDtTMy+A4Yuk0B6zV8c+BcO2OgFIp/UvJdG4o/Rp1JQYXeZFflPEFMfvugiFGFXN587YtgX7C8lRGFXPCGGYCCzlkoxJ4xqmi/jrIcdYYh5pwxiwI/gt7lDDFrcLiMKhBJ//W78ENsJgVUsV8wKpjZBXshM6cCW0jbRAilICFxIpgGMmmiWGHSIR6ViY+DPFaqSJCbQ5mbxoZLIlU0Al/cBj6N1uXfFI0okLppi69StmumSFQRP6oIKDedFi3vRDn3j6KozCZlu0DdJb3AupJXNLmqkk9+X9FEHLt1Jq8oi1H5n01AtRlvwQZQl9hmtPY4JEjMDs5ftWJN4Xr4lLrV2OHiUDHCPgvA/Tn/hP4zGUBfjZ3eLJ+NIOfHxi8CMoAQtYfmw93v01O0e7VlqqcCsXML3Vsu94cxnb4c7ML5chG8JIP9b38dENGaj3+x+TpiA/AL/fen8In7H8l3ZjdJQt2TAAAAAElFTkSuQmCC">
-  </div>`
-
+    " src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAk1BMVEUAAAD////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////ROyVeAAAAMHRSTlMA1Sq7gPribxkJx6Ey8onMsq+GTe10QF8kqJl5WEcvIBDc0sHAkkk1FgO2ZZ+dj1FHfPqwAAACNElEQVRIx6VW6ZqqMAwtFlEW2Rm3EXEfdZa+/9PdBEvbIVXu9835oW1yjiQlTWQE/iYPuTObOTzMNz4bQFRlY2FgnFXRC/o01mytiafP+BPvQZk56bcLSOXem1jpCy4QgXvRtlEVCARfUP65RM/hp29/+0R7eSbhoHlnffZ8h76e6x1tyw9mxXaJ3nfTVLd89hQr9NfGceJxfLIXmONh6eNNYftNSESRmgkHlEOjmhgBbYcEW08FFQN/ro6dvAczjhgXEdQP76xHEYxM+igQq259gLrCSlwbD3iDtTMy+A4Yuk0B6zV8c+BcO2OgFIp/UvJdG4o/Rp1JQYXeZFflPEFMfvugiFGFXN587YtgX7C8lRGFXPCGGYCCzlkoxJ4xqmi/jrIcdYYh5pwxiwI/gt7lDDFrcLiMKhBJ//W78ENsJgVUsV8wKpjZBXshM6cCW0jbRAilICFxIpgGMmmiWGHSIR6ViY+DPFaqSJCbQ5mbxoZLIlU0Al/cBj6N1uXfFI0okLppi69StmumSFQRP6oIKDedFi3vRDn3j6KozCZlu0DdJb3AupJXNLmqkk9+X9FEHLt1Jq8oi1H5n01AtRlvwQZQl9hmtPY4JEjMDs5ftWJN4Xr4lLrV2OHiUDHCPgvA/Tn/hP4zGUBfjZ3eLJ+NIOfHxi8CMoAQtYfmw93v01O0e7VlqqcCsXML3Vsu94cxnb4c7ML5chG8JIP9b38dENGaj3+x+TpiA/AL/fen8In7H8l3ZjdJQt2TAAAAAElFTkSuQmCC">`
+    $showBtn.innerHTML = `
+    <img style="
+      padding-top: 4px;
+      width: 24px;
+      display: inline-block;
+      cursor: pointer;
+    " src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAElBMVEUAAAD///////////////////8+Uq06AAAABXRSTlMA2kCAv5tF5NoAAAErSURBVHja7dzNasJAFIbhz8Tu7R0Eq/vQNHuxzL6YnPu/ldYpAUckxJ8zSnjfdTIPzHrOUawJdqmDJre1S/X7avigbM08kMgMSmt+iPWKbcwTsb3+KswXseOFLb2RnaTgjXTxtpwRq7XMgWz9kZ8cSKcwE6SX+SMGAgICAvJCyHdz2ud0pEx+/BpFaj2kEgQEBAQEBAQEBOT1kXWSkhbvk1vptOLs1LEWNrmVRgIBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBeTayTqpufogxduqM3q2AgICAgICAgICA3IOko4ZXkB/pqOHzhyZBQEBAQLIieVahtDNBDnrLgZT+yC4HUkmtN9JnWUiVZbVWliVhseCJdPqvCH5IV2tQNl4r6Bod+wWq9eeDik+xFQAAAABJRU5ErkJggg==">`
 
     // 十倍速播放
     function _tenRatePlay() {
@@ -64,7 +62,7 @@
       }
     }
 
-    // 下载资源
+    // 下载资源，因为无法判断当前 _sourceBufferList 中存在的是正片片段，还是广告片段，故无法清除 _sourceBufferList，
     function _download() {
       var _hmt = _hmt || [];
       (function() {
@@ -93,7 +91,6 @@
         a.click()
         a.remove()
       })
-      _sourceBufferList = []  //这里新增的
     }
 
     // 监听资源全部录取成功
@@ -135,13 +132,18 @@
       if (document.getElementById('media-source-extract')) {
         return
       }
-      const baseStyle = `
+      $container.style = `
       position: fixed;
       top: 50px;
       right: 50px;
-      height: 40px;
-      padding: 0 20px;
+      text-align: right;
       z-index: 9999;
+      `
+      const baseStyle = `
+      float:right;
+      clear:both;
+      margin-top: 10px;
+      padding: 0 20px;
       color: white;
       cursor: pointer;
       font-size: 16px;
@@ -154,49 +156,75 @@
     `
       $tenRate.innerHTML = '十倍速捕获'
       $downloadNum.innerHTML = '已捕获 0 个片段'
+      $btnStreamDownload.innerHTML = '特大视频下载，边下载边保存'
       $btnDownload.innerHTML = '下载已捕获片段'
       $btnDownload.id = 'media-source-extract'
-      $tenRate.style = baseStyle + `top: 150px;`
-      $btnDownload.style = baseStyle + `top: 100px;`
+      $tenRate.style = baseStyle
       $downloadNum.style = baseStyle
-      $showBtn.innerHTML = '展示捕获面板'
-      $showBtn.style = baseStyle + `top: 100px;`
-      $showBtn.style.display = 'none'
+      $btnDownload.style = baseStyle
+      $btnStreamDownload.style = baseStyle
+      $showBtn.style = `
+      float:right;
+      clear:both;
+      display: none;
+      margin-top: 4px;
+      height: 34px;
+      width: 34px;
+      line-height: 34px;
+      text-align: center;
+      border-radius: 4px;
+      background-color: rgba(0, 0, 0, 0.5);
+      `
       $closeBtn.style = `
-        position: fixed;
-        top: 200px;
-        right: 50px;
-        text-align: center;
-        z-index: 9999;
-        cursor: pointer;
+      float:right;
+      clear:both;
+      margin-top: 10px;
+      height: 34px;
+      width: 34px;
+      line-height: 34px;
+      text-align: center;
+      display: inline-block;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.5);
       `
 
       $btnDownload.addEventListener('click', _download)
       $tenRate.addEventListener('click', _tenRatePlay)
+      $btnStreamDownload.addEventListener('click', function(){
+        isStreamDownload = true
+        $btnStreamDownload.style.display = 'none'
+        $btnDownload.style.display = 'none'
+      })
       $closeBtn.addEventListener('click', function() {
-        // $btnDownload.remove()
-        // $downloadNum.remove()
-        // $closeBtn.remove()
-        // $tenRate.remove()
+        $downloadNum.style.display = 'none'
+        $btnStreamDownload.style.display = 'none'
         $btnDownload.style.display = 'none'
         $closeBtn.style.display = 'none'
         $tenRate.style.display = 'none'
-        $showBtn.style.display = 'block'
+        $showBtn.style.display = 'inline-block'
         isClose = true
       })
       $showBtn.addEventListener('click', function() {
-        $btnDownload.style.display = 'block'
-        $closeBtn.style.display = 'block'
-        $tenRate.style.display = 'block'
+        $downloadNum.style.display = 'inline-block'
+        $btnDownload.style.display = 'inline-block'
+        $btnStreamDownload.style.display = 'inline-block'
+        $closeBtn.style.display = 'inline-block'
+        $tenRate.style.display = 'inline-block'
         $showBtn.style.display = 'none'
         isClose = false
       })
 
-      document.getElementsByTagName('html')[0].insertBefore($tenRate, document.getElementsByTagName('head')[0]);
-      document.getElementsByTagName('html')[0].insertBefore($downloadNum, document.getElementsByTagName('head')[0]);
-      document.getElementsByTagName('html')[0].insertBefore($btnDownload, document.getElementsByTagName('head')[0]);
-      document.getElementsByTagName('html')[0].insertBefore($closeBtn, document.getElementsByTagName('head')[0]);
-      document.getElementsByTagName('html')[0].insertBefore($showBtn, document.getElementsByTagName('head')[0]);
+      document.getElementsByTagName('html')[0].insertBefore($container, document.getElementsByTagName('head')[0]);
+      $container.appendChild($btnStreamDownload)
+      $container.appendChild($downloadNum)
+      $container.appendChild($btnDownload)
+      $container.appendChild($tenRate)
+      $container.appendChild($closeBtn)
+      $container.appendChild($showBtn)
+      // 加载 stream 流式下载器
+      let $streamSaver = document.createElement('script')
+      $streamSaver.src = 'https://upyun.luckly-mjw.cn/lib/stream-saver.js'
+      document.body.appendChild($streamSaver);
     }
 
 
