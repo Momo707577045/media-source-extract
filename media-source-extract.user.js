@@ -13,13 +13,15 @@
 // @run-at document-start
 // ==/UserScript==
 
-(function() {
+(function () {
   'use strict';
-  (function() {
+  (function () {
     if (document.getElementById('media-source-extract')) {
       return
     }
 
+
+    let sumFragment = 0 // 已经捕获的所有片段数
     let isClose = false // 是否关闭
     let isStreamDownload = false // 是否使用流式下载
     let _sourceBufferList = [] // 媒体轨道
@@ -62,29 +64,33 @@
       }
     }
 
-    // 下载资源，因为无法判断当前 _sourceBufferList 中存在的是正片片段，还是广告片段，故无法清除 _sourceBufferList，
-    function _download() {
-      var _hmt = _hmt || [];
-      (function() {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?1f12b0865d866ae1b93514870d93ce89";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-      })();
-
+    // 获取顶部 window title，因可能存在跨域问题，故使用 try catch 进行保护
+    function getDocumentTitle() {
       let title = document.title;
       try {
         title = window.top.document.title
       } catch (error) {
         console.log(error)
       }
+      return title
+    }
+
+    // 下载资源，因为无法判断当前 _sourceBufferList 中存在的是正片片段，还是广告片段，故无法清除 _sourceBufferList，
+    function _download() {
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?1f12b0865d866ae1b93514870d93ce89";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
 
       _sourceBufferList.forEach((target) => {
         const mime = target.mime.split(';')[0]
         const type = mime.split('/')[1]
         const fileBlob = new Blob(target.bufferList, { type: mime }) // 创建一个Blob对象，并设置文件的 MIME 类型
         const a = document.createElement('a')
-        a.download = `${title}.${type}`
+        a.download = `${getDocumentTitle()}.${type}`
         a.href = URL.createObjectURL(fileBlob)
         a.style.display = 'none'
         document.body.appendChild(a)
@@ -95,7 +101,7 @@
 
     // 监听资源全部录取成功
     let _endOfStream = window.MediaSource.prototype.endOfStream
-    window.MediaSource.prototype.endOfStream = function() {
+    window.MediaSource.prototype.endOfStream = function () {
       // alert('资源全部捕获成功，即将下载！')
       let text = '资源全部捕获成功，即将下载！';
       if (confirm(text) == true) {
@@ -108,20 +114,36 @@
 
     // 录取资源
     let _addSourceBuffer = window.MediaSource.prototype.addSourceBuffer
-    window.MediaSource.prototype.addSourceBuffer = function(mime) {
+    window.MediaSource.prototype.addSourceBuffer = function (mime) {
       _appendDom()
       let sourceBuffer = _addSourceBuffer.call(this, mime)
       let _append = sourceBuffer.appendBuffer
       let bufferList = []
-      _sourceBufferList.push({
+      const _sourceBuffer = {
         mime,
         bufferList,
-      })
-      sourceBuffer.appendBuffer = function(buffer) {
-        let sumFragment = 0
-        _sourceBufferList.forEach(sourceBuffer => sumFragment += sourceBuffer.bufferList.length)
+      }
+
+      // 如果 streamSaver 已提前加载完成，则初始化对应的 streamWriter
+      try {
+        if(window.streamSaver){
+          const type = mime.split(';')[0].split('/')[1]
+          _sourceBuffer.streamWriter = streamSaver.createWriteStream(`${getDocumentTitle()}.${type}`).getWriter()
+        }
+      } catch (error) {
+        console.error(error)
+      }
+
+      _sourceBufferList.push(_sourceBuffer)
+      sourceBuffer.appendBuffer = function (buffer) {
+        sumFragment++
         $downloadNum.innerHTML = `已捕获 ${sumFragment} 个片段`
-        bufferList.push(buffer)
+
+        if (isStreamDownload && _sourceBuffer.streamWriter) { // 流式下载
+          _sourceBuffer.streamWriter.write(new Uint8Array(buffer));
+        } else { // 普通 blob 下载
+          bufferList.push(buffer)
+        }
         _append.call(this, buffer)
       }
       return sourceBuffer
@@ -163,6 +185,7 @@
       $downloadNum.style = baseStyle
       $btnDownload.style = baseStyle
       $btnStreamDownload.style = baseStyle
+      $btnStreamDownload.style.display = 'none'
       $showBtn.style = `
       float:right;
       clear:both;
@@ -190,12 +213,9 @@
 
       $btnDownload.addEventListener('click', _download)
       $tenRate.addEventListener('click', _tenRatePlay)
-      $btnStreamDownload.addEventListener('click', function(){
-        isStreamDownload = true
-        $btnStreamDownload.style.display = 'none'
-        $btnDownload.style.display = 'none'
-      })
-      $closeBtn.addEventListener('click', function() {
+
+      // 关闭控制面板
+      $closeBtn.addEventListener('click', function () {
         $downloadNum.style.display = 'none'
         $btnStreamDownload.style.display = 'none'
         $btnDownload.style.display = 'none'
@@ -204,14 +224,35 @@
         $showBtn.style.display = 'inline-block'
         isClose = true
       })
-      $showBtn.addEventListener('click', function() {
+
+      // 显示控制面板
+      $showBtn.addEventListener('click', function () {
+        if (!isStreamDownload) {
+          $btnDownload.style.display = 'inline-block'
+          $btnStreamDownload.style.display = 'inline-block'
+        }
         $downloadNum.style.display = 'inline-block'
-        $btnDownload.style.display = 'inline-block'
-        $btnStreamDownload.style.display = 'inline-block'
         $closeBtn.style.display = 'inline-block'
         $tenRate.style.display = 'inline-block'
         $showBtn.style.display = 'none'
         isClose = false
+      })
+
+      // 启动流式下载
+      $btnStreamDownload.addEventListener('click', function () {
+        isStreamDownload = true
+        $btnDownload.style.display = 'none'
+        $btnStreamDownload.style.display = 'none'
+        _sourceBufferList.forEach(sourceBuffer => {
+          if (!sourceBuffer.streamWriter) {
+            const type = sourceBuffer.mime.split(';')[0].split('/')[1]
+            sourceBuffer.streamWriter = streamSaver.createWriteStream(`${getDocumentTitle()}.${type}`).getWriter()
+            sourceBuffer.bufferList.forEach(buffer => {
+              sourceBuffer.streamWriter.write(new Uint8Array(buffer));
+            })
+            sourceBuffer.bufferList = []
+          }
+        })
       })
 
       document.getElementsByTagName('html')[0].insertBefore($container, document.getElementsByTagName('head')[0]);
@@ -221,12 +262,18 @@
       $container.appendChild($tenRate)
       $container.appendChild($closeBtn)
       $container.appendChild($showBtn)
+
       // 加载 stream 流式下载器
-      let $streamSaver = document.createElement('script')
-      $streamSaver.src = 'https://upyun.luckly-mjw.cn/lib/stream-saver.js'
-      document.body.appendChild($streamSaver);
+      try {
+        let $streamSaver = document.createElement('script')
+        $streamSaver.src = 'https://upyun.luckly-mjw.cn/lib/stream-saver.js'
+        document.body.appendChild($streamSaver);
+        $streamSaver.addEventListener('load', () => {
+          $btnStreamDownload.style.display = 'inline-block'
+        })
+      } catch (error) {
+        console.error(error)
+      }
     }
-
-
   })()
 })();
