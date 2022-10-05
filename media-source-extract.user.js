@@ -75,7 +75,31 @@
       return title
     }
 
-    // 下载资源，因为无法判断当前 _sourceBufferList 中存在的是正片片段，还是广告片段，故无法清除 _sourceBufferList，
+    // 流式下载
+    function _streamDownload() {
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?1f12b0865d866ae1b93514870d93ce89";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+
+      // 对应状态未下载结束的媒体轨道
+      const remainSourceBufferList = []
+      _sourceBufferList.forEach((target) => {
+        // 对应的 MSE 状态为已下载完成状态
+        if (target.MSEInstance.readyState === 'ended') {
+          target.streamWriter.close()
+        } else {
+          remainSourceBufferList.push(target)
+        }
+      })
+      // 流式下载，释放已下载完成的媒体轨道，回收内存
+      _sourceBufferList = remainSourceBufferList
+    }
+
+    // 普通下载
     function _download() {
       var _hmt = _hmt || [];
       (function () {
@@ -102,11 +126,13 @@
     // 监听资源全部录取成功
     let _endOfStream = window.MediaSource.prototype.endOfStream
     window.MediaSource.prototype.endOfStream = function () {
-      // 流式下载，因为无法判断是那个视频流完成下载，无法进行终止，需待页面离开时，才可触发下载
-      if(isStreamDownload){
-        alert('资源捕获成功，待关闭页面后下载')
+      if (isStreamDownload) {
+        alert('资源全部捕获成功，即将下载！')
+        setTimeout(_streamDownload) // 等待 MediaSource 状态变更
+        _endOfStream.call(this)
         return
       }
+
       if (confirm('资源全部捕获成功，即将下载！') == true) {
         _download()
       } else {
@@ -119,17 +145,19 @@
     let _addSourceBuffer = window.MediaSource.prototype.addSourceBuffer
     window.MediaSource.prototype.addSourceBuffer = function (mime) {
       _appendDom()
+
       let sourceBuffer = _addSourceBuffer.call(this, mime)
       let _append = sourceBuffer.appendBuffer
       let bufferList = []
       const _sourceBuffer = {
         mime,
         bufferList,
+        MSEInstance: this,
       }
 
       // 如果 streamSaver 已提前加载完成，则初始化对应的 streamWriter
       try {
-        if(window.streamSaver){
+        if (window.streamSaver) {
           const type = mime.split(';')[0].split('/')[1]
           _sourceBuffer.streamWriter = streamSaver.createWriteStream(`${getDocumentTitle()}.${type}`).getWriter()
         }
