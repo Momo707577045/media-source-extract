@@ -179,6 +179,9 @@
       }
       return sourceBuffer
     }
+    window.MediaSource.prototype.addSourceBuffer.toString = function(){
+        return 'function addSourceBuffer() { [native code] }'
+    }
 
     // 添加操作的 dom
     function _appendDom() {
