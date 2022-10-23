@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         media-source-extract
 // @namespace    https://github.com/Momo707577045/media-source-extract
-// @version      0.8.1
+// @version      0.8.2
 // @description  https://github.com/Momo707577045/media-source-extract 配套插件
 // @author       Momo707577045
 // @include      *
@@ -19,6 +19,21 @@
     if (document.getElementById('media-source-extract')) {
       return
     }
+    
+    // 轮询监听 iframe 的加载
+    setInterval(() => {
+      Array.prototype.forEach.call(document.getElementsByTagName('iframe'), (iframe) => {
+        // 若 iframe 使用了 sandbox 进行操作约束，删除原有 iframe，拷贝其备份，删除 sandbox 属性，重新载入
+        // 若 iframe 已载入，再修改 sandbox 属性，将修改无效。故通过新建 iframe 的方式绕过
+        if(iframe.hasAttribute('sandbox')){
+          const parentNode = iframe.parentNode;
+          const tempIframe = iframe.cloneNode()
+          tempIframe.removeAttribute("sandbox");
+          iframe.remove()
+          parentNode.appendChild(tempIframe);
+        }
+      })
+    }, 1000)
 
 
     let sumFragment = 0 // 已经捕获的所有片段数
