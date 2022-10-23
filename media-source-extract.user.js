@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         media-source-extract
 // @namespace    https://github.com/Momo707577045/media-source-extract
-// @version      0.7
+// @version      0.8.1
 // @description  https://github.com/Momo707577045/media-source-extract 配套插件
 // @author       Momo707577045
 // @include      *
@@ -118,6 +118,10 @@
         a.href = URL.createObjectURL(fileBlob)
         a.style.display = 'none'
         document.body.appendChild(a)
+        // 禁止 click 事件冒泡，避免全局拦截
+        a.onclick = function (e) {
+          e.stopPropagation();
+        }
         a.click()
         a.remove()
       })
@@ -179,8 +183,8 @@
       }
       return sourceBuffer
     }
-    window.MediaSource.prototype.addSourceBuffer.toString = function(){
-        return 'function addSourceBuffer() { [native code] }'
+    window.MediaSource.prototype.addSourceBuffer.toString = function () {
+      return 'function addSourceBuffer() { [native code] }'
     }
 
     // 添加操作的 dom
