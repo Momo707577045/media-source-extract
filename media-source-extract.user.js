@@ -6,7 +6,6 @@
 // @author       Momo707577045
 // @include      *
 // @exclude      http://blog.luckly-mjw.cn/tool-show/media-source-extract/player/player.html
-// @exclude      https://www.bilibili.com/*
 // @downloadURL	 https://blog.luckly-mjw.cn/tool-show/media-source-extract/media-source-extract.user.js
 // @updateURL	   https://blog.luckly-mjw.cn/tool-show/media-source-extract/media-source-extract.user.js
 // @grant        none
@@ -22,17 +21,21 @@
     
     // 轮询监听 iframe 的加载
     setInterval(() => {
-      Array.prototype.forEach.call(document.getElementsByTagName('iframe'), (iframe) => {
-        // 若 iframe 使用了 sandbox 进行操作约束，删除原有 iframe，拷贝其备份，删除 sandbox 属性，重新载入
-        // 若 iframe 已载入，再修改 sandbox 属性，将修改无效。故通过新建 iframe 的方式绕过
-        if(iframe.hasAttribute('sandbox')){
-          const parentNode = iframe.parentNode;
-          const tempIframe = iframe.cloneNode()
-          tempIframe.removeAttribute("sandbox");
-          iframe.remove()
-          parentNode.appendChild(tempIframe);
-        }
-      })
+      try {
+        Array.prototype.forEach.call(document.getElementsByTagName('iframe'), (iframe) => {
+          // 若 iframe 使用了 sandbox 进行操作约束，删除原有 iframe，拷贝其备份，删除 sandbox 属性，重新载入
+          // 若 iframe 已载入，再修改 sandbox 属性，将修改无效。故通过新建 iframe 的方式绕过
+          if(iframe.hasAttribute('sandbox')){
+            const parentNode = iframe.parentNode;
+            const tempIframe = iframe.cloneNode()
+            tempIframe.removeAttribute("sandbox");
+            iframe.remove()
+            parentNode.appendChild(tempIframe);
+          }
+        })
+      } catch (error) {
+        console.log(error)
+      }
     }, 1000)
 
 
