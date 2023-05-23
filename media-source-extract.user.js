@@ -18,14 +18,19 @@
     if (document.getElementById('media-source-extract')) {
       return
     }
-    
+
+    // 复写 call 函数，绕过劫持检查
+    Function.prototype.toString.call = function (caller) {
+      return `'function ${caller.name}() { [native code] }'`
+    }
+
     // 轮询监听 iframe 的加载
     setInterval(() => {
       try {
         Array.prototype.forEach.call(document.getElementsByTagName('iframe'), (iframe) => {
           // 若 iframe 使用了 sandbox 进行操作约束，删除原有 iframe，拷贝其备份，删除 sandbox 属性，重新载入
           // 若 iframe 已载入，再修改 sandbox 属性，将修改无效。故通过新建 iframe 的方式绕过
-          if(iframe.hasAttribute('sandbox')){
+          if (iframe.hasAttribute('sandbox')) {
             const parentNode = iframe.parentNode;
             const tempIframe = iframe.cloneNode()
             tempIframe.removeAttribute("sandbox");
@@ -147,7 +152,7 @@
 
     // 监听资源全部录取成功
     let _endOfStream = window.MediaSource.prototype.endOfStream
-    window.MediaSource.prototype.endOfStream = function () {
+    window.MediaSource.prototype.endOfStream = function endOfStream() {
       if (isStreamDownload) {
         alert('资源全部捕获成功，即将下载！')
         setTimeout(_streamDownload) // 等待 MediaSource 状态变更
@@ -165,9 +170,8 @@
 
     // 录取资源
     let _addSourceBuffer = window.MediaSource.prototype.addSourceBuffer
-    window.MediaSource.prototype.addSourceBuffer = function (mime) {
+    window.MediaSource.prototype.addSourceBuffer = function addSourceBuffer(mime) {
       _appendDom()
-
       let sourceBuffer = _addSourceBuffer.call(this, mime)
       let _append = sourceBuffer.appendBuffer
       let bufferList = []
@@ -201,7 +205,7 @@
       }
       return sourceBuffer
     }
-    window.MediaSource.prototype.addSourceBuffer.toString = function () {
+    window.MediaSource.prototype.addSourceBuffer.toString = function toString() {
       return 'function addSourceBuffer() { [native code] }'
     }
 
