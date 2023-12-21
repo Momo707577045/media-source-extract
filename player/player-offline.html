@@ -170,7 +170,7 @@
 <body>
 <section id="m-app" v-cloak>
   <div class="background"></div>
-  <section class="m-p-action g-box">离线专属播放器</section>
+  <section class="m-p-action g-box">{{ isPlay ? videoFileName : 'Media Source 播放器' }}</section>
   <template v-if="!isPlay">
     <a v-if="!isPlay" class="m-p-help" target="_blank" href="https://segmentfault.com/a/1190000025182822">?</a>
     <a class="m-p-github" target="_blank" href="https://github.com/Momo707577045/media-source-extract">github</a>
@@ -192,6 +192,8 @@
 
   <!--播放视频-->
   <video controls v-show="isPlay" ref="player"></video>
+
+  <div v-if="isPlay" style="height: 100vh"></div>
 
 </section>
 </body>

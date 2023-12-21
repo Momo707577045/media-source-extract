@@ -196,7 +196,7 @@
 </div>
 <section id="m-app" v-cloak>
   <div class="background"></div>
-  <section class="m-p-action g-box">Media Source 播放器</section>
+  <section class="m-p-action g-box">{{ isPlay ? videoFileName : 'Media Source 播放器' }}</section>
   <template v-if="!isPlay">
     <a class="m-p-help" target="_blank" href="https://segmentfault.com/a/1190000025182822">?</a>
     <a class="m-p-github" target="_blank" href="https://github.com/Momo707577045/media-source-extract">github</a>
@@ -205,7 +205,7 @@
     <div class="m-p-copy" @click="copy">复制工具代码</div>
     <a class="m-p-extract" target="_blank"
       href="http://blog.luckly-mjw.cn/tool-show/media-source-extract/example/index.html">提取示例</a>
-    <a class="m-p-download" target="_blank" href="http://upyun.luckly-mjw.cn/lib/player-offline.html">离线专属播放器下载</a>
+    <a class="m-p-download" target="_blank" href="https://upyun.luckly-mjw.cn/lib/player-offline.html">离线专属播放器下载</a>
   </template>
 
   <!--倍速设置器-->
@@ -226,6 +226,8 @@
 
   <!--播放视频-->
   <video controls v-show="isPlay" ref="player"></video>
+
+  <div v-if="isPlay" style="height: 100vh"></div>
 
 </section>
 </body>
