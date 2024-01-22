@@ -1,0 +1,23 @@
+#EXTM3U
+#EXT-X-VERSION:4
+## Created with Unified Streaming Platform  (version=1.12.1-28247)
+#EXT-X-PLAYLIST-TYPE:VOD
+#EXT-X-MEDIA-SEQUENCE:1
+#EXT-X-INDEPENDENT-SEGMENTS
+#EXT-X-TARGETDURATION:4
+#USP-X-TIMESTAMP-MAP:MPEGTS=900000,LOCAL=1970-01-01T00:00:00Z
+#EXTINF:4, no desc
+http://upyun.luckly-mjw.cn/Assets/media-source/example/media/test-1.ts
+#EXTINF:4, no desc
+http://upyun.luckly-mjw.cn/Assets/media-source/example/media/test-2.ts
+#EXTINF:4, no desc
+http://upyun.luckly-mjw.cn/Assets/media-source/example/media/test-3.ts
+#EXTINF:4, no desc
+http://upyun.luckly-mjw.cn/Assets/media-source/example/media/test-4.ts
+#EXTINF:4, no desc
+http://upyun.luckly-mjw.cn/Assets/media-source/example/media/test-5.ts
+#EXTINF:4, no desc
+http://upyun.luckly-mjw.cn/Assets/media-source/example/media/test-6.ts
+#EXTINF:1.5, no desc
+http://upyun.luckly-mjw.cn/Assets/media-source/example/media/test-7.ts
+#EXT-X-ENDLIST
