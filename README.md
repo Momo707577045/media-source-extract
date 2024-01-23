@@ -186,14 +186,19 @@
 ## mac 系统，音视频合成方法
 - [安装 ffmpeg](https://www.jianshu.com/p/627b2d462151) 视频编辑库
 - 先把音频「audio_mp4」进行转码
-  - 命令行执行 `ffmpeg -i "***-audio_mp4;codecs=***.mp4" -acodec copy "audio.aac"`
+  - 命令行执行 `ffmpeg -i "捕获的音频.mp4" -acodec copy "audio.aac"`
 - 原始视频「video_mp4」和上一步得到的 aac 「audio.aac」组装到一起
-  - 命令行执行 `ffmpeg -i "***-video_mp4;codecs=***.mp4" -i "audio.aac" -c copy -shortest "result.mp4"`
+  - 命令行执行 `ffmpeg -i "捕获的视频.mp4" -i "audio.aac" -c copy -shortest "result.mp4"`
 - 得到的「result.mp4」就是音视频合成成功的视频
 - 特别感谢[journey-ad](https://github.com/Momo707577045/media-source-extract/issues/5#issuecomment-786992510) 介绍的 ffmpeg 合成教程。
 
   ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/110.jpeg)
 
+- 依据以上原理，用macOS自带的自动操作可以制作如下脚本
+- 将两个文件拖拽到程序上即可自动合成
+- <img width="270" alt="截屏2023-05-14 12 41 16" src="https://github.com/pys078/media-source-extract/assets/7541452/29bd39bd-157a-4275-9da6-cc1a17eea20d"> 
+- [合成视频.app.zip](https://github.com/Momo707577045/media-source-extract/files/11471161/app.zip)
+- [pys078](https://github.com/pys078)贡献
 ## 原理
 - 主流视频媒体播放技术，均使用到 [MES](https://developer.mozilla.org/zh-CN/docs/Web/API/Media_Source_Extensions_API) 技术
 - MES 技术播放流程一般如下：
