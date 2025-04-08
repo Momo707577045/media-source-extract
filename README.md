@@ -1,7 +1,11 @@
 # 无差别视频提取工具
 
+## 欢迎加入社区交流群
+
+![界面](./imgs/tools.png) ![界面](./imgs/mse.png)
+
 ## [油猴插件，点击自动安装](https://blog.luckly-mjw.cn/tool-show/media-source-extract/media-source-extract.user.js)
-![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/109.jpeg)
+![](./imgs/109.jpeg)
 - 检测到符合条件的视频资源，自动注入代码。
 - 之后再也不需要自己注入代码啦，降低使用成本。
 - 可能有 Bug，但可以试试。如果使用中有问题，在 github 中提 issues 给我呗。 我们一起完善它。
@@ -10,21 +14,21 @@
 - 手动添加油猴插件步骤
   - 点击 tamper-monkey「油猴」icon，点击「添加新脚本」
 
-    ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/022.png)
+    ![](./imgs/022.png)
 
   - 在当前位置，粘贴上述链接中的源码
 
-    ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/023.jpeg)
+    ![](./imgs/023.jpeg)
 
-    ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/024.jpeg)
+    ![](./imgs/024.jpeg)
 
   - 点击「文本」，「保存」
 
-    ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/025.jpeg)
+    ![](./imgs/025.jpeg)
 
   - 得到如下结果，即为添加成功
 
-    ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/026.jpeg)
+    ![](./imgs/026.jpeg)
 
 
 
@@ -33,7 +37,7 @@
 - 后续还实现了非定制性的 ASE 解密功能（不提供定制性服务，定制性解密，属于破解，侵权行为，需尊重知识产权）
 - 但上述工具仍存在一定的通用性问题。为彻底解决通用性，实现无差别视频提取，开发了这个工具。
 
-  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/001.jpeg)
+  ![](./imgs/001.jpeg)
 
 ## 特点
 - 优点，通用性强，无差别提取，只要使用到 MES 主流媒体播放技术的视频，均可捕获。
@@ -41,13 +45,13 @@
 - 缺点，被动，无法主动干预视频加载，只可被动捕获视频资源。
 - 缺点，有一定门槛，依赖 chrome 浏览器开发者模式，无法实现全自动化，有一定使用门槛。
 
-  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/018.png)
+  ![](./imgs/018.png)
 
 
 ## [使用示例链接](http://blog.luckly-mjw.cn/tool-show/media-source-extract/example/index.html)
 
 ## 功能说明
-![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/017.png)
+![](./imgs/017.png)
 
 - 【已捕获 0 个片段】
   - 显示程序已捕获的视频片段数。
@@ -65,52 +69,52 @@
   - 可以直接复制本文中的核心源码
   - 也可以点开[示例实验链接](http://blog.luckly-mjw.cn/tool-show/media-source-extract/example/index.html)，点击按钮，快速复制工具代码。
 
-    ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/002.jpeg)
+    ![](./imgs/002.jpeg)
 
 - 打开目前页面的控制台
 
-  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/003.jpeg)
+  ![](./imgs/003.jpeg)
 
 - ctrl + f ，输入 <iframe，判断是否存在 iframe 内嵌页面。若存在 iframe，请看完本说明，再继续查看下一节「iframe 解决方案」。若无，则下一步
 
-  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/004.jpeg)
+  ![](./imgs/004.jpeg)
 
 - 打开代码调试面板
 
-  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/005.jpeg)
+  ![](./imgs/005.jpeg)
 
 - 在调试面板中，找到当前页面的代码
   - 注意文件的寻找方法，需根据 URL 中的路径层级寻找。
   - 点击下方按钮，对代码进行排版。
 
-  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/006.jpeg)
+  ![](./imgs/006.jpeg)
 
 - 搜索，找到第一个 <script 标签，并设置多个断点
 
-  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/007.jpeg)
+  ![](./imgs/007.jpeg)
 
   - 搜索，如果第一个 <script 标签是一个链接。
 
-    ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/015.jpeg)
+    ![](./imgs/015.jpeg)
   - 则找到对应文件，设置断点。
 
-    ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/016.jpeg)
+    ![](./imgs/016.jpeg)
 
 - 刷新页面，出现如下状态，则证明断点设置成功
   - 若页面白屏，为正常现象，按照步骤继续执行即可。
-  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/008.jpeg)
+  ![](./imgs/008.jpeg)
 
 - 在 console 栏，粘贴工具代码，回车
 
-  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/009.jpeg)
+  ![](./imgs/009.jpeg)
 
 - 回到 source 栏，点击按钮，恢复运行
 
-  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/010.jpeg)
+  ![](./imgs/010.jpeg)
 
 - 若页面出现这几个按钮，则证明注入成功，工具运行成功
 
-  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/011.jpeg)
+  ![](./imgs/011.jpeg)
 
 - 正常观看视频，等待视频捕获
   - 可点击「十倍速捕获」，接口视频播放速度，加快视频捕获速度。
@@ -118,16 +122,16 @@
 
 - 若页面出现如下弹窗，即捕获完成，视频自动下载（也可以点击「下载已捕获片段」，手动下载）
 
-  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/012.jpeg)
+  ![](./imgs/012.jpeg)
 
 - 视频下载完成，得到「音频」文件，「视频」文件
 
-  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/013.jpeg)
+  ![](./imgs/013.jpeg)
 
   - 可使用[专属播放器](http://blog.luckly-mjw.cn/tool-show/media-source-extract/player/player.html)，进行播放。
   - 也可以使用其他工具，进行合并。
 
-    ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/014.jpeg)
+    ![](./imgs/014.jpeg)
 
 
 ## iframe 解决方案
@@ -135,28 +139,28 @@
 - 找到 iframe 标签，复制 src 中的 url，新建页面打开该 url。
   - 如果该新建页面能正常播放视频，则在该新建页面，使用上述「使用说明」即可。
 
-    ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/107.jpeg)
+    ![](./imgs/107.jpeg)
 
 - 如果新建页面没有正常播放页面，则回到原页面，换一种方式实现。
 - 回到原页面，找到 iframe 内嵌页面的源码。
   - 同样搜索 <script，但这一次，要找带 src 的 script 标签
 
-    ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/101.jpeg)
+    ![](./imgs/101.jpeg)
 - 找到该 src 对应的文件，并打断点
 
-  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/102.jpeg)
+  ![](./imgs/102.jpeg)
 
 - 刷新页面，并在源文件中，插入代码
   - 注意，打断点和插入代码是在不同的栏，打断点的栏中，有「:format」标识。插入代码的栏，没有该标识。
 
-  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/103.jpeg)
+  ![](./imgs/103.jpeg)
 - 粘贴代码，ctrl + s 进行保存
 
-  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/104.jpeg)
+  ![](./imgs/104.jpeg)
 
 - 恢复执行（操作方式，查看上一节「使用说明」）
 
-  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/108.jpeg)
+  ![](./imgs/108.jpeg)
 
 - 完成代码插入，捕获视频
 
@@ -164,11 +168,11 @@
 - 在代码操作过程中，页面白屏是正常的，按照步骤继续执行即可。
 - 如果不行，安装使用说明，多试几遍就可以了。可能是视频广告导致。
 - 注意 Chrome 的多文件下载询问，如果拒绝过，需要重新打开。
-  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/201.jpeg)
+  ![](./imgs/201.jpeg)
 
 - 视频捕获，分为「视频」文件与「音频」文件，「视频」文件是纯视频，没声音的。需要搭配「音频」文件播放。[点击这里](http://blog.luckly-mjw.cn/tool-show/media-source-extract/player/player.html)，使用专属播放器。
 
-  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/013.jpeg)
+  ![](./imgs/013.jpeg)
 
 ## [专属播放器](http://blog.luckly-mjw.cn/tool-show/media-source-extract/player/player.html)
 - 由于采集工具是单独对「视频」和「音频」分开采集的。
@@ -176,7 +180,7 @@
 - 可利用本工具同时加载「视频」和「音频」同步播放。
 - 本工具还附有倍速播放功能。
 
-  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/014.jpeg)
+  ![](./imgs/014.jpeg)
 
 ## window 系统，音视频合成方法
 - 可使用[「小丸工具箱」](https://maruko.appinn.me/)完成
@@ -192,7 +196,7 @@
 - 得到的「result.mp4」就是音视频合成成功的视频
 - 特别感谢[journey-ad](https://github.com/Momo707577045/media-source-extract/issues/5#issuecomment-786992510) 介绍的 ffmpeg 合成教程。
 
-  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/110.jpeg)
+  ![](./imgs/110.jpeg)
 
 ## 原理
 - 主流视频媒体播放技术，均使用到 [MES](https://developer.mozilla.org/zh-CN/docs/Web/API/Media_Source_Extensions_API) 技术
@@ -204,12 +208,12 @@
   - 将每个片段的「视频轨」「音频轨」，"喂给" video 标签进行播放。
   - 当已加载的视频片段快要播完时，重复第二个步骤，拉取新的视频片段，进行投喂。
 
-    ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/021.jpeg)
+    ![](./imgs/021.jpeg)
 - 本工具的核心逻辑
   - 覆写视频片段的"投喂"操作。
   - 插入自定义代码，收集"投喂"的「视频」「音频」资源，进行下载。
 
-  ![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/019.jpeg)
+  ![](./imgs/019.jpeg)
 
 
 ## 核心源码（共 91 行）
@@ -311,7 +315,7 @@
 
 
 ## [项目源码](https://github.com/Momo707577045/media-source-extract)
-![](http://upyun.luckly-mjw.cn/Assets/media-source/readme-picture/020.png)
+![](./imgs/020.png)
 
 
 
