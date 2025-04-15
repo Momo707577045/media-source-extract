@@ -2,7 +2,7 @@
 
 ## 欢迎加入社区交流群
 
-![界面](./imgs/tools.png) ![界面](./imgs/mse.png)
+![界面](./imgs/tools.jpeg)
 
 ## [油猴插件，点击自动安装](https://blog.luckly-mjw.cn/tool-show/media-source-extract/media-source-extract.user.js)
 ![](./imgs/109.jpeg)
