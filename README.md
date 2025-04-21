@@ -185,7 +185,7 @@
 ## window 系统，音视频合成方法
 - 可使用[「小丸工具箱」](https://maruko.appinn.me/)完成
 - 具体的方式，笔者没有实践过，有经验的朋友欢迎在评论区留言使用教程。万分感谢。
-- 特别感谢[㍿⃣ ](https://segmentfault.com/a/1190000025182822?_ea=116593121) 介绍的「小丸工具箱」解决方案
+- 特别感谢[㍿⃣ ](https://github.com/Momo707577045/media-source-extract?_ea=116593121) 介绍的「小丸工具箱」解决方案
 
 ## mac 系统，音视频合成方法
 - [安装 ffmpeg](https://www.jianshu.com/p/627b2d462151) 视频编辑库

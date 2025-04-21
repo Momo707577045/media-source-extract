@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -9,139 +10,162 @@
   <title>Media Source 提取示例</title>
   <link rel="stylesheet" href="./DPlayer.min.css">
   <style>
-  .m-p-action {
-    margin: 20px auto;
-    max-width: 1100px;
-    width: 100%;
-    font-size: 35px;
-    text-align: center;
-    font-weight: bold;
-  }
-  .m-p-other, .m-p-github, .m-p-copy, .m-p-player, .m-p-tamper, .m-p-combining {
-    position: fixed;
-    right: 50px;
-    background-color: #eff3f6;
-    background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
-    color: #24292e;
-    border: 1px solid rgba(27, 31, 35, .2);
-    border-radius: 3px;
-    cursor: pointer;
-    display: inline-block;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 20px;
-    padding: 6px 12px;
-    z-index: 99;
-  }
-  .m-p-help {
-    position: fixed;
-    right: 50px;
-    top: 50px;
-    width: 30px;
-    height: 30px;
-    color: #666666;
-    z-index: 2;
-    text-align: center;
-    line-height: 30px;
-    font-weight: bolder;
-    border-radius: 50%;
-    border: 1px solid rgba(27, 31, 35, .2);
-    cursor: pointer;
-    background-color: #eff3f6;
-    background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
-  }
-  .m-p-github:hover, .m-p-other:hover, .m-p-help:hover, .m-p-copy:hover, .m-p-tamper:hover, .m-p-player:hover, .m-p-combining:hover {
-    opacity: 0.9;
-  }
-  .m-p-player {
-    bottom: 30px;
-  }
-  .m-p-copy {
-    bottom: 70px;
-  }
-  .m-p-other {
-    bottom: 110px;
-  }
-  .m-p-combining {
-    bottom: 150px;
-  }
-  .m-p-tamper {
-    bottom: 190px;
-  }
-  .m-p-github {
-    bottom: 230px;
-  }
-  #dplayer {
-    position: absolute;
-    top: 12%;
-    left: 10%;
-    width: 80%;
-    height: 80%;
-  }
+    .m-p-action {
+      margin: 20px auto;
+      max-width: 1100px;
+      width: 100%;
+      font-size: 35px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .m-p-other,
+    .m-p-github,
+    .m-p-copy,
+    .m-p-player,
+    .m-p-tamper,
+    .m-p-combining {
+      position: fixed;
+      right: 50px;
+      background-color: #eff3f6;
+      background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
+      color: #24292e;
+      border: 1px solid rgba(27, 31, 35, .2);
+      border-radius: 3px;
+      cursor: pointer;
+      display: inline-block;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+      padding: 6px 12px;
+      z-index: 99;
+    }
+
+    .m-p-help {
+      position: fixed;
+      right: 50px;
+      top: 50px;
+      width: 30px;
+      height: 30px;
+      color: #666666;
+      z-index: 2;
+      text-align: center;
+      line-height: 30px;
+      font-weight: bolder;
+      border-radius: 50%;
+      border: 1px solid rgba(27, 31, 35, .2);
+      cursor: pointer;
+      background-color: #eff3f6;
+      background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
+    }
+
+    .m-p-github:hover,
+    .m-p-other:hover,
+    .m-p-help:hover,
+    .m-p-copy:hover,
+    .m-p-tamper:hover,
+    .m-p-player:hover,
+    .m-p-combining:hover {
+      opacity: 0.9;
+    }
+
+    .m-p-player {
+      bottom: 30px;
+    }
+
+    .m-p-copy {
+      bottom: 70px;
+    }
+
+    .m-p-other {
+      bottom: 110px;
+    }
+
+    .m-p-combining {
+      bottom: 150px;
+    }
+
+    .m-p-tamper {
+      bottom: 190px;
+    }
+
+    .m-p-github {
+      bottom: 230px;
+    }
+
+    #dplayer {
+      position: absolute;
+      top: 12%;
+      left: 10%;
+      width: 80%;
+      height: 80%;
+    }
   </style>
 </head>
+
 <body>
-<section class="m-p-action g-box">Media Source 提取示例</section>
-<a class="m-p-help" target="_blank" href="https://segmentfault.com/a/1190000025182822">?</a>
-<a class="m-p-github" target="_blank" href="https://github.com/Momo707577045/media-source-extract">github</a>
-<a class="m-p-tamper" target="_blank" href="https://blog.luckly-mjw.cn/tool-show/media-source-extract/media-source-extract.user.js">手动添加油猴插件</a>
-<a class="m-p-combining" target="_blank" href="https://segmentfault.com/a/1190000025182822">音视频合成</a>
-<a class="m-p-other" target="_blank" href="http://blog.luckly-mjw.cn/tool-show/index.html">其他实用工具</a>
-<a class="m-p-player" target="_blank" href="http://blog.luckly-mjw.cn/tool-show/media-source-extract/player/player.html">专属播放器</a>
-<div class="m-p-copy" id="copy">复制工具代码</div>
-<div id="loading">
-  页面加载中，请耐心等待...
-  <h1 style="white-space: pre;">
-    推荐一个无差别提取视频的工具，
-    网页上能播放的视频，绝大部分都可以通过本工具进行提取，
-    无视媒体加密技术，直接从底层捕获视频资源，
-    工具链接：https://blog.luckly-mjw.cn/tool-show/media-source-extract/player/index.html
-    <img src="https://upyun.luckly-mjw.cn/Assets/blog/media-source-extract-121-75.png" alt="无差别视频下载工具" title="logo"/>
-    <a target="_blank" href="https://blog.luckly-mjw.cn/tool-show/media-source-extract/index.html">点击跳转</a>
-  </h1>
-</div>
-<div id="dplayer"></div>
+  <section class="m-p-action g-box">Media Source 提取示例</section>
+  <a class="m-p-help" target="_blank" href="https://github.com/Momo707577045/media-source-extract">?</a>
+  <a class="m-p-github" target="_blank" href="https://github.com/Momo707577045/media-source-extract">github</a>
+  <a class="m-p-tamper" target="_blank" href="https://blog.luckly-mjw.cn/tool-show/media-source-extract/media-source-extract.user.js">手动添加油猴插件</a>
+  <a class="m-p-combining" target="_blank" href="https://github.com/Momo707577045/media-source-extract">音视频合成</a>
+  <a class="m-p-other" target="_blank" href="http://blog.luckly-mjw.cn/tool-show/index.html">其他实用工具</a>
+  <a class="m-p-player" target="_blank" href="http://blog.luckly-mjw.cn/tool-show/media-source-extract/player/player.html">专属播放器</a>
+  <div class="m-p-copy" id="copy">复制工具代码</div>
+  <div id="loading">
+    页面加载中，请耐心等待...
+    <h1 style="white-space: pre;">
+      推荐一个无差别提取视频的工具，
+      网页上能播放的视频，绝大部分都可以通过本工具进行提取，
+      无视媒体加密技术，直接从底层捕获视频资源，
+      工具链接：https://blog.luckly-mjw.cn/tool-show/media-source-extract/player/index.html
+      <img src="https://upyun.luckly-mjw.cn/Assets/blog/media-source-extract-121-75.png" alt="无差别视频下载工具" title="logo" />
+      <a target="_blank" href="https://blog.luckly-mjw.cn/tool-show/media-source-extract/index.html">点击跳转</a>
+    </h1>
+  </div>
+  <div id="dplayer"></div>
 </body>
 <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?1f12b0865d866ae1b93514870d93ce89";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
+  var _hmt = _hmt || [];
+  (function () {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?1f12b0865d866ae1b93514870d93ce89";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
 </script>
 <script src="./hls.min.js"></script>
 <script src="./DPlayer.min.js"></script>
 <script>
-document.getElementById('loading') && document.getElementById('loading').remove()
-new DPlayer({
-  container: document.getElementById('dplayer'),
-  screenshot: true,
-  video: {
-    url: 'http://upyun.luckly-mjw.cn/Assets/media-source/example/media/index.m3u8',
-  },
-});
+  document.getElementById('loading') && document.getElementById('loading').remove()
+  new DPlayer({
+    container: document.getElementById('dplayer'),
+    screenshot: true,
+    video: {
+      url: 'http://upyun.luckly-mjw.cn/Assets/media-source/example/media/index.m3u8',
+    },
+  });
 
-function copyToClipboard(content) {
-  let $input = document.createElement('textarea')
-  $input.style.opacity = '0'
-  $input.value = content
-  document.body.appendChild($input)
-  $input.select()
+  function copyToClipboard(content) {
+    let $input = document.createElement('textarea')
+    $input.style.opacity = '0'
+    $input.value = content
+    document.body.appendChild($input)
+    $input.select()
 
-  document.execCommand('copy')
-  document.body.removeChild($input)
-  $input = null
-}
+    document.execCommand('copy')
+    document.body.removeChild($input)
+    $input = null
+  }
 
-copy.addEventListener('click', () => {
-  fetch('http://blog.luckly-mjw.cn/tool-show/media-source-extract/extract-code.js', { mode: 'cors' })
-    .then(res => res.text())
-    .then(text => {
-      copyToClipboard(text)
-      alert('代码复制成功')
-    })
-})
+  copy.addEventListener('click', () => {
+    fetch('http://blog.luckly-mjw.cn/tool-show/media-source-extract/extract-code.js', { mode: 'cors' })
+      .then(res => res.text())
+      .then(text => {
+        copyToClipboard(text)
+        alert('代码复制成功')
+      })
+  })
 </script>
+
 </html>
